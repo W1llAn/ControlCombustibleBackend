@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123456789aA@
+      - MSSQL_PID=Developer
+    ports:
+      - "1515:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - red-ms
+  microservicio-autenticacion:
+    build:
+      context: ./MicroservicioAutenticacion
+      dockerfile: Dockerfile
+    container_name: microservicio-autenticacion
+    ports:
+      - "5000:8080" # Puerto externo : puerto interno del contenedor
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UsuariosDB;User Id=sa;Password=123456789aA@;TrustServerCertificate=true;
+
+    depends_on:
+      - sqlserver
+    restart: always
+    networks:
+      - red-ms
+
+volumes:
+  sql_data:
+
+networks:
+  red-ms:
