@@ -1,7 +1,36 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\William\\Documents\\6\u00B0 Semestre\\Aplicaciones Distribuidas\\Proyecto\\Backend\\MicroservicioAutenticacion\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\migrations\\20250503190129_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:migrations\\20250503190129_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\entities\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:entities\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\entities\\rol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:entities\\rol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\entities\\estado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:entities\\estado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 187,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +55,97 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20250503190129_initial.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Migrations\\20250503190129_initial.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250503190129_initial.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Migrations\\20250503190129_initial.cs",
+              "RelativeToolTip": "Migrations\\20250503190129_initial.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAgwDgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T19:01:30.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-03T18:44:09.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T18:42:51.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T18:40:50.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Rol.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Rol.cs",
+              "RelativeDocumentMoniker": "Entities\\Rol.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Rol.cs",
+              "RelativeToolTip": "Entities\\Rol.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T18:34:25.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Estado.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Estado.cs",
+              "RelativeDocumentMoniker": "Entities\\Estado.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Estado.cs",
+              "RelativeToolTip": "Entities\\Estado.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T18:27:19.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Usuario.cs",
+              "RelativeDocumentMoniker": "Entities\\Usuario.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Entities\\Usuario.cs",
+              "RelativeToolTip": "Entities\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-03T18:25:07.391Z",
+              "EditorCaption": ""
             }
           ]
         }
