@@ -1,6 +1,8 @@
 ﻿using Grpc.Core;
 using Microservicio_Administracion.Data;
+using Microservicio_Autenticación.Auth;
 using MicroservicioAutenticacion.Protos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace MicroservicioAutenticacion.Controllers
@@ -8,12 +10,13 @@ namespace MicroservicioAutenticacion.Controllers
     public class UsuariosProtoImpl: UsuariosService.UsuariosServiceBase
     {
         private readonly AppDbContext _context;
-
-        public UsuariosProtoImpl(AppDbContext context)
+        private  IConfiguration _configuration;
+        public UsuariosProtoImpl(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
-
+        [Authorize(Policy = "AdministradorPolitica")]
         public override async Task<Usuario> RegistrarUsuario(UsuarioRegistro request, ServerCallContext context)
         {
             var nuevoUsuario = new Entities.Usuario
@@ -29,18 +32,18 @@ namespace MicroservicioAutenticacion.Controllers
 
             return MapUsuario(nuevoUsuario);
         }
-
+        [Authorize(Policy = "AdministradorPolitica")]
         public override async Task<RespuestaVacia> BorrarUsuario(UsuarioBorrar request, ServerCallContext context)
         {
-            var usuario = await _context.Usuarios.FindAsync(request.Id);
-            if (usuario != null)
-            {
-                usuario.estado = Entities.Estado.Eliminado;
-                await _context.SaveChangesAsync();
-            }
+            var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
+            if (usuario == null) throw new RpcException(new Status(StatusCode.NotFound, "Usuario no encontrado"));
+
+            usuario.estado = Entities.Estado.Eliminado;
+
+            await _context.SaveChangesAsync();
             return new RespuestaVacia();
         }
-
+        [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<ListaUsuarios> SeleccionarUsuarios(RespuestaVacia request, ServerCallContext context)
         {
             var usuarios = await _context.Usuarios.Include(u => u.rol).ToListAsync();
@@ -48,7 +51,7 @@ namespace MicroservicioAutenticacion.Controllers
             lista.Usuarios.AddRange(usuarios.Select(u => MapUsuario(u)));
             return lista;
         }
-
+        [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<Usuario> ActualizarUsuario(UsuarioActualizar request, ServerCallContext context)
         {
             var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
@@ -67,12 +70,16 @@ namespace MicroservicioAutenticacion.Controllers
         public override async Task<UsuarioLoginRespuesta> Login(UsuarioLogin request, ServerCallContext context)
         {
             var usuario = await _context.Usuarios
+                .Include(u => u.rol)
                 .FirstOrDefaultAsync(u => u.Nombre_usuario == request.NombreUsuario && u.hash_contrasena == request.HashContrasena);
 
-            return new UsuarioLoginRespuesta
+            if (usuario == null || usuario.estado == Entities.Estado.Eliminado)
             {
-                Token = usuario != null ? "token_generado_aqui" : ""
-            };
+                return new UsuarioLoginRespuesta { Token = "" };
+            }
+
+            var tokenProvider = new TokenProvider(_configuration);
+            return new UsuarioLoginRespuesta { Token = tokenProvider.Create(usuario) };
         }
 
         private Usuario MapUsuario(Entities.Usuario usuario)

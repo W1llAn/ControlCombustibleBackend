@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicroservicioAutenticacion")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6fb68a285a4682aa52f6fa273c396e37644b14be")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fad875f0c9ed7e96829da393f8f07a91a237bf59")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicroservicioAutenticacion")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicroservicioAutenticacion")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
