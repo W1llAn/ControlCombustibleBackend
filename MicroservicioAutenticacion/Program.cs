@@ -1,5 +1,6 @@
 using Microservicio_Administracion.Data;
 using MicroservicioAutenticacion.Controllers;
+using MicroservicioAutenticacion.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
@@ -86,6 +87,62 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    int maxRetries = 3;
+    int delayMs = 3000;
+    int retries = 0;
+
+    while (retries < maxRetries)
+    {
+        try
+        {
+            logger.LogInformation("Intentando aplicar migraciones...");
+            context.Database.Migrate();
+
+            // Insertar roles si no existen
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(
+                    new Rol { nombre = "Administrador", descripcion = "Acceso total" },
+                    new Rol { nombre = "Supervisor", descripcion = "Supervisa operaciones" },
+                    new Rol { nombre = "Operador", descripcion = "Operación básica del sistema" }
+                );
+                context.SaveChanges();
+            }
+
+            // Insertar usuario administrador si no existe
+            if (!context.Usuarios.Any(u => u.Nombre_usuario == "root"))
+            {
+                var rolAdmin = context.Roles.First(r => r.nombre == "Administrador");
+
+                context.Usuarios.Add(new Usuario
+                {
+                    email = "admin@sistema.com",
+                    Nombre_usuario = "root",
+                    hash_contrasena = "1234",
+                    rol = rolAdmin,
+                });
+            }
+                context.SaveChanges();     // Inserta datos iniciales
+                break;
+        }
+        catch (Exception ex)
+        {
+            retries++;
+            logger.LogWarning(ex, $"Error al aplicar migraciones o insertar datos iniciales. Reintento {retries}/{maxRetries}...");
+            Thread.Sleep(delayMs);
+        }
+    }
+}
+
+
+
 
 app.MapGrpcService<UsuariosProtoImpl>();
 

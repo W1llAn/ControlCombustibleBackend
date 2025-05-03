@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\controllers\\usuariosprotoimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:controllers\\usuariosprotoimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\auth\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:auth\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\controllers\\usuariosprotoimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:controllers\\usuariosprotoimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\auth\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|solutionrelative:auth\\tokenprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8DAE6743-DDE1-4C86-93AF-7551602EAAB5}|MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\protos\\usuarios.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 187,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +70,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "TokenProvider.cs",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Auth\\TokenProvider.cs",
               "RelativeDocumentMoniker": "Auth\\TokenProvider.cs",
@@ -78,12 +78,11 @@
               "RelativeToolTip": "Auth\\TokenProvider.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAxwBAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T21:36:56.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T21:36:56.686Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -104,18 +103,17 @@
               "RelativeToolTip": "Dockerfile",
               "ViewState": "AgIAAAkAAAAAAAAAAIBJwBwAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-03T19:39:32.961Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T19:39:32.961Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "UsuariosProtoImpl.cs",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
               "RelativeDocumentMoniker": "Controllers\\UsuariosProtoImpl.cs",
               "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
               "RelativeToolTip": "Controllers\\UsuariosProtoImpl.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowDUAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwDUAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T19:25:02.956Z",
               "EditorCaption": ""
@@ -130,8 +128,7 @@
               "RelativeToolTip": "Entities\\Estado.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T19:20:22.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T19:20:22.776Z"
             },
             {
               "$type": "Document",
@@ -143,18 +140,17 @@
               "RelativeToolTip": "Protos\\Usuarios.proto",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
-              "WhenOpened": "2025-05-03T19:19:29.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T19:19:29.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAuwEcAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAuwH4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-03T18:42:51.322Z",
               "EditorCaption": ""
@@ -169,8 +165,7 @@
               "RelativeToolTip": "Data\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAkwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T18:40:50.731Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T18:40:50.731Z"
             },
             {
               "$type": "Document",
@@ -182,8 +177,7 @@
               "RelativeToolTip": "Entities\\Rol.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T18:34:25.312Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T18:34:25.312Z"
             },
             {
               "$type": "Document",
@@ -195,8 +189,7 @@
               "RelativeToolTip": "Entities\\Usuario.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T18:25:07.391Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-03T18:25:07.391Z"
             }
           ]
         }

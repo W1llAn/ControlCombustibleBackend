@@ -28,6 +28,7 @@ services:
 
     depends_on:
       - sqlserver
+    restart: always
     networks:
       - red-ms
 
