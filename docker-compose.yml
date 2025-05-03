@@ -14,6 +14,22 @@ services:
       - sql_data:/var/opt/mssql
     networks:
       - red-ms
+  microservicio-autenticacion:
+    build:
+      context: ./MicroservicioAutenticacion
+      dockerfile: Dockerfile
+    container_name: microservicio-autenticacion
+    ports:
+      - "5000:8080" # Puerto externo : puerto interno del contenedor
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UsuariosDB;User Id=sa;Password=123456789aA@;TrustServerCertificate=true;
+
+    depends_on:
+      - sqlserver
+    networks:
+      - red-ms
 
 volumes:
   sql_data:
