@@ -28,3 +28,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MicroservicioVehiculos.dll"]
+
+COPY certs certs
+ENV DOTNET_RUNNING_IN_CONTAINER=true

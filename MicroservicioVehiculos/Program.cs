@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MicroservicioVehiculos.Data;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,24 +11,71 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configurar gRPC
 builder.Services.AddGrpc();
-builder.Services.AddGrpc();
 //dotnet dev-certs https --trust
+bool isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(7297, listenOptions =>
+    if (isDocker)
     {
-        listenOptions.UseHttps(); // ✅ Usa el certificado por defecto o personalizado
-        listenOptions.Protocols = HttpProtocols.Http2;
-    });
-});
+        // Solo en Docker
+        options.ListenAnyIP(8080, o =>
+        {
+            o.Protocols = HttpProtocols.Http2;
+        });
 
+        options.ListenAnyIP(8081, o =>
+        {
+            o.UseHttps("certs/devcert.pfx", "1234");
+            o.Protocols = HttpProtocols.Http2;
+        });
+    }
+    else
+    {
+        options.ListenAnyIP(7297, listenOptions =>
+        {
+            listenOptions.UseHttps(); // ✅ Usa el certificado por defecto o personalizado
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+    }
+});
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DataContext>();
+
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    int maxRetries = 3;
+    int delayMs = 3000;
+    int retries = 0;
+
+    while (retries < maxRetries)
+    {
+        try
+        {
+            logger.LogInformation("Intentando aplicar migraciones...");
+            context.Database.Migrate();     
+            break;
+        }
+        catch (Exception ex)
+        {
+            retries++;
+            logger.LogWarning(ex, $"Error al aplicar migraciones. Reintento {retries}/{maxRetries}...");
+            Thread.Sleep(delayMs);
+        }
+    }
+}
+
+
+
 
 // Configura endpoints HTTP y gRPC
 app.MapGrpcService<MicroservicioVehiculos.Services.VehiculoServiceImpl>();
@@ -42,7 +90,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
