@@ -11,6 +11,8 @@
         public decimal consumoCombustibleKm { get; set; }
         public string estado { get; set; } // "Eliminado", "Activo"
 
+        public string descripcion {  get; set; }
+        public string nombre { get; set; }
 
     }
 }
