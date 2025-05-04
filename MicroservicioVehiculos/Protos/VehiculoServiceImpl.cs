@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MicroservicioVehiculos.Data;
 using MicroservicioVehiculos.Models;
 using MicroservicioVehiculos.Protos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MicroservicioVehiculos.Services
 {
@@ -14,7 +15,7 @@ namespace MicroservicioVehiculos.Services
         {
             _context = context;
         }
-
+        [Authorize]
         public override async Task<GetVehiculoResponse> GetVehiculo(GetVehiculoRequest request, ServerCallContext context)
         {
             var veh = await _context.Vehiculos.FindAsync(request.Id);
@@ -32,11 +33,13 @@ namespace MicroservicioVehiculos.Services
                     CapacidadCombustible = (double)veh.capacidadCombustible,
                     FechaRegistro = veh.fechaRegistro.ToString("o"),
                     ConsumoCombustibleKm = (double)veh.consumoCombustibleKm,
-                    Estado = veh.estado
+                    Estado = veh.estado,
+                    Nombre = veh.nombre,
+                    Descripcion = veh.descripcion
                 }
             };
         }
-
+        [Authorize]
         public override async Task<GetAllVehiculosResponse> GetAllVehiculos(Empty request, ServerCallContext context)
         {
             var list = await _context.Vehiculos.ToListAsync();
@@ -50,11 +53,13 @@ namespace MicroservicioVehiculos.Services
                 CapacidadCombustible = (double)veh.capacidadCombustible,
                 FechaRegistro = veh.fechaRegistro.ToString("o"),
                 ConsumoCombustibleKm = (double)veh.consumoCombustibleKm,
-                Estado = veh.estado
+                Estado = veh.estado,
+                Descripcion = veh.descripcion,
+                Nombre= veh.nombre
             }));
             return response;
         }
-
+        [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<CreateVehiculoResponse> CreateVehiculo(CreateVehiculoRequest request, ServerCallContext context)
         {
             var model = request.Vehiculo;
@@ -66,7 +71,9 @@ namespace MicroservicioVehiculos.Services
                 capacidadCombustible = (decimal)model.CapacidadCombustible,
                 fechaRegistro = DateTime.Parse(model.FechaRegistro),
                 consumoCombustibleKm = (decimal)model.ConsumoCombustibleKm,
-                estado = model.Estado
+                estado = model.Estado,
+                descripcion = model.Descripcion,
+                nombre = model.Nombre
             };
             _context.Vehiculos.Add(veh);
             await _context.SaveChangesAsync();
@@ -75,7 +82,7 @@ namespace MicroservicioVehiculos.Services
             model.FechaRegistro = veh.fechaRegistro.ToString("o");
             return new CreateVehiculoResponse { Vehiculo = model };
         }
-
+        [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<UpdateVehiculoResponse> UpdateVehiculo(UpdateVehiculoRequest request, ServerCallContext context)
         {
             var model = request.Vehiculo;
@@ -90,12 +97,14 @@ namespace MicroservicioVehiculos.Services
             veh.fechaRegistro = DateTime.Parse(model.FechaRegistro);
             veh.consumoCombustibleKm = (decimal)model.ConsumoCombustibleKm;
             veh.estado = model.Estado;
+            veh.descripcion = model.Descripcion;
+            veh.nombre = model.Nombre;
 
             await _context.SaveChangesAsync();
 
             return new UpdateVehiculoResponse { Vehiculo = model };
         }
-
+        [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<DeleteVehiculoResponse> DeleteVehiculo(DeleteVehiculoRequest request, ServerCallContext context)
         {
             var veh = await _context.Vehiculos.FindAsync(request.Id);
