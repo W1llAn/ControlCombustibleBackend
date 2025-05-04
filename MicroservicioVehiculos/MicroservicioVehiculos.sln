@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroservicioVehiculos", "MicroservicioVehiculos.csproj", "{B590E547-F632-459C-A965-3C93FA647030}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroservicioAutenticacion", "..\MicroservicioAutenticacion\MicroservicioAutenticacion.csproj", "{F236185D-D6F5-3745-4235-F5842350B6CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,15 +15,8 @@ Global
 		{B590E547-F632-459C-A965-3C93FA647030}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B590E547-F632-459C-A965-3C93FA647030}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B590E547-F632-459C-A965-3C93FA647030}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F236185D-D6F5-3745-4235-F5842350B6CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F236185D-D6F5-3745-4235-F5842350B6CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F236185D-D6F5-3745-4235-F5842350B6CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F236185D-D6F5-3745-4235-F5842350B6CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {858225AE-2CD5-4367-B690-C85E0812D24D}
 	EndGlobalSection
 EndGlobal

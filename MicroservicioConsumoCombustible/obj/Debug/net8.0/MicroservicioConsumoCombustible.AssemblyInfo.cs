@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicroservicioConsumoCombustible")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cb3d0317a3cafb204ca6ea772da52f3cc7663d85")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicroservicioConsumoCombustible")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicroservicioConsumoCombustible")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

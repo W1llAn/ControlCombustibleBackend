@@ -28,5 +28,3 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MicroservicioAutenticacion.dll"]
-
-COPY certs certs
