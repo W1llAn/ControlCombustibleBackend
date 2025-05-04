@@ -32,6 +32,23 @@ services:
     networks:
       - red-ms
 
+  api-gateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    container_name: apigateway
+    ports:
+      - "5050:8080" # Puerto externo : puerto interno del contenedor
+      - "5051:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+    depends_on:
+      - microservicio-autenticacion
+    restart: always
+    networks:
+      - red-ms
+
 volumes:
   sql_data:
 
