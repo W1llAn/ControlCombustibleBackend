@@ -1,7 +1,15 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\William\\Documents\\6\u00B0 Semestre\\Aplicaciones Distribuidas\\Proyecto\\MicroservicioVehiculos\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioVehiculos\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B590E547-F632-459C-A965-3C93FA647030}|MicroservicioVehiculos.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microserviciovehiculos\\protos\\vehiculoserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B590E547-F632-459C-A965-3C93FA647030}|MicroservicioVehiculos.csproj|solutionrelative:protos\\vehiculoserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F236185D-D6F5-3745-4235-F5842350B6CB}|..\\MicroservicioAutenticacion\\MicroservicioAutenticacion.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\microservicioautenticacion\\controllers\\usuariosprotoimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +17,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 187,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +34,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsuariosProtoImpl.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
+              "RelativeDocumentMoniker": "..\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
+              "RelativeToolTip": "..\\MicroservicioAutenticacion\\Controllers\\UsuariosProtoImpl.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAwwDUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T20:54:07.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VehiculoServiceImpl.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioVehiculos\\Protos\\VehiculoServiceImpl.cs",
+              "RelativeDocumentMoniker": "Protos\\VehiculoServiceImpl.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\MicroservicioVehiculos\\Protos\\VehiculoServiceImpl.cs",
+              "RelativeToolTip": "Protos\\VehiculoServiceImpl.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAcwGIAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T20:53:10.625Z",
+              "EditorCaption": ""
             }
           ]
         }

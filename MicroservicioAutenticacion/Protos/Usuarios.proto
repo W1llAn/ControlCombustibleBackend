@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option csharp_namespace = "MicroservicioAutenticacion.Protos";
+
+package autenticacion;
+
+// Enum Estado
+enum Estado {
+  ELIMINADO = 0;
+  ACTIVO = 1;
+}
+
+// Mensaje Rol
+message Rol {
+  int32 id = 1;
+  string nombre = 2;
+  string descripcion = 3;
+}
+
+// Mensaje Usuario
+message Usuario {
+  int32 id = 1;
+  string email = 2;
+  string nombre_usuario = 3;
+  string hash_contrasena = 4;
+  Estado estado = 5;
+  Rol rol = 6;
+  string fecha_creacion = 7; // usar formato ISO-8601 o timestamp según convención
+}
+service UsuariosService{
+    rpc RegistrarUsuario (UsuarioRegistro) returns (Usuario);
+    rpc BorrarUsuario(UsuarioBorrar) returns (RespuestaVacia);
+    rpc SeleccionarUsuarios(RespuestaVacia) returns (ListaUsuarios);
+    rpc ActualizarUsuario(UsuarioActualizar) returns (Usuario);
+    rpc Login(UsuarioLogin) returns (UsuarioLoginRespuesta);
+}
+
+
+// Login
+message UsuarioLogin {
+  string nombre_usuario = 1;
+  string hash_contrasena = 2;
+}
+
+message UsuarioLoginRespuesta {
+  string token=1;
+}
+
+// Registro
+message UsuarioRegistro {
+  string email = 1;
+  string nombre_usuario = 2;
+  string hash_contrasena = 3;
+  int32 rol_id = 5;
+}
+
+// Borrado (por ID)
+message UsuarioBorrar {
+  int32 id = 1;
+}
+
+// Actualización
+message UsuarioActualizar {
+  int32 id = 1;
+  string email = 2;
+  string nombre_usuario = 3;
+  string hash_contrasena = 4;
+  Estado estado = 5;
+  int32 rol_id = 6;
+}
+
+// Lista de usuarios
+message ListaUsuarios {
+  repeated Usuario usuarios = 1;
+}
+
+// Respuesta vacía
+message RespuestaVacia {}
