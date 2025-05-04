@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MicroservicioVehiculos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e27af8375eea0fb9700d84bce1fb27c2041175a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c62440818716eaee1a56e3f72f04d8c25fe33f63")]
 [assembly: System.Reflection.AssemblyProductAttribute("MicroservicioVehiculos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MicroservicioVehiculos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

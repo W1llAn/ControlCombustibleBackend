@@ -24,38 +24,39 @@ namespace MicroservicioVehiculos.Protos {
     static VehiculoReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChVQcm90b3MvdmVoaWN1bG8ucHJvdG8SCHZlaGljdWxvIr4BCg1WZWhpY3Vs",
+            "ChVQcm90b3MvdmVoaWN1bG8ucHJvdG8SCHZlaGljdWxvIuMBCg1WZWhpY3Vs",
             "b01vZGVsEgoKAmlkGAEgASgFEg0KBXBsYWNhGAIgASgJEhYKDnRpcG9NYXF1",
             "aW5hcmlhGAMgASgJEhcKD2VzdGFkb09wZXJhdGl2bxgEIAEoCRIcChRjYXBh",
             "Y2lkYWRDb21idXN0aWJsZRgFIAEoARIVCg1mZWNoYVJlZ2lzdHJvGAYgASgJ",
             "EhwKFGNvbnN1bW9Db21idXN0aWJsZUttGAcgASgBEg4KBmVzdGFkbxgIIAEo",
-            "CSIgChJHZXRWZWhpY3Vsb1JlcXVlc3QSCgoCaWQYASABKAUiQAoTR2V0VmVo",
-            "aWN1bG9SZXNwb25zZRIpCgh2ZWhpY3VsbxgBIAEoCzIXLnZlaGljdWxvLlZl",
-            "aGljdWxvTW9kZWwiRQoXR2V0QWxsVmVoaWN1bG9zUmVzcG9uc2USKgoJdmVo",
-            "aWN1bG9zGAEgAygLMhcudmVoaWN1bG8uVmVoaWN1bG9Nb2RlbCJCChVDcmVh",
-            "dGVWZWhpY3Vsb1JlcXVlc3QSKQoIdmVoaWN1bG8YASABKAsyFy52ZWhpY3Vs",
-            "by5WZWhpY3Vsb01vZGVsIkMKFkNyZWF0ZVZlaGljdWxvUmVzcG9uc2USKQoI",
-            "dmVoaWN1bG8YASABKAsyFy52ZWhpY3Vsby5WZWhpY3Vsb01vZGVsIkIKFVVw",
-            "ZGF0ZVZlaGljdWxvUmVxdWVzdBIpCgh2ZWhpY3VsbxgBIAEoCzIXLnZlaGlj",
-            "dWxvLlZlaGljdWxvTW9kZWwiQwoWVXBkYXRlVmVoaWN1bG9SZXNwb25zZRIp",
-            "Cgh2ZWhpY3VsbxgBIAEoCzIXLnZlaGljdWxvLlZlaGljdWxvTW9kZWwiIwoV",
-            "RGVsZXRlVmVoaWN1bG9SZXF1ZXN0EgoKAmlkGAEgASgFIikKFkRlbGV0ZVZl",
-            "aGljdWxvUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIHCgVFbXB0eTKjAwoP",
-            "VmVoaWN1bG9TZXJ2aWNlEkoKC0dldFZlaGljdWxvEhwudmVoaWN1bG8uR2V0",
-            "VmVoaWN1bG9SZXF1ZXN0Gh0udmVoaWN1bG8uR2V0VmVoaWN1bG9SZXNwb25z",
-            "ZRJFCg9HZXRBbGxWZWhpY3Vsb3MSDy52ZWhpY3Vsby5FbXB0eRohLnZlaGlj",
-            "dWxvLkdldEFsbFZlaGljdWxvc1Jlc3BvbnNlElMKDkNyZWF0ZVZlaGljdWxv",
-            "Eh8udmVoaWN1bG8uQ3JlYXRlVmVoaWN1bG9SZXF1ZXN0GiAudmVoaWN1bG8u",
-            "Q3JlYXRlVmVoaWN1bG9SZXNwb25zZRJTCg5VcGRhdGVWZWhpY3VsbxIfLnZl",
-            "aGljdWxvLlVwZGF0ZVZlaGljdWxvUmVxdWVzdBogLnZlaGljdWxvLlVwZGF0",
-            "ZVZlaGljdWxvUmVzcG9uc2USUwoORGVsZXRlVmVoaWN1bG8SHy52ZWhpY3Vs",
-            "by5EZWxldGVWZWhpY3Vsb1JlcXVlc3QaIC52ZWhpY3Vsby5EZWxldGVWZWhp",
-            "Y3Vsb1Jlc3BvbnNlQiCqAh1NaWNyb3NlcnZpY2lvVmVoaWN1bG9zLlByb3Rv",
-            "c2IGcHJvdG8z"));
+            "CRITCgtkZXNjcmlwY2lvbhgJIAEoCRIOCgZub21icmUYCiABKAkiIAoSR2V0",
+            "VmVoaWN1bG9SZXF1ZXN0EgoKAmlkGAEgASgFIkAKE0dldFZlaGljdWxvUmVz",
+            "cG9uc2USKQoIdmVoaWN1bG8YASABKAsyFy52ZWhpY3Vsby5WZWhpY3Vsb01v",
+            "ZGVsIkUKF0dldEFsbFZlaGljdWxvc1Jlc3BvbnNlEioKCXZlaGljdWxvcxgB",
+            "IAMoCzIXLnZlaGljdWxvLlZlaGljdWxvTW9kZWwiQgoVQ3JlYXRlVmVoaWN1",
+            "bG9SZXF1ZXN0EikKCHZlaGljdWxvGAEgASgLMhcudmVoaWN1bG8uVmVoaWN1",
+            "bG9Nb2RlbCJDChZDcmVhdGVWZWhpY3Vsb1Jlc3BvbnNlEikKCHZlaGljdWxv",
+            "GAEgASgLMhcudmVoaWN1bG8uVmVoaWN1bG9Nb2RlbCJCChVVcGRhdGVWZWhp",
+            "Y3Vsb1JlcXVlc3QSKQoIdmVoaWN1bG8YASABKAsyFy52ZWhpY3Vsby5WZWhp",
+            "Y3Vsb01vZGVsIkMKFlVwZGF0ZVZlaGljdWxvUmVzcG9uc2USKQoIdmVoaWN1",
+            "bG8YASABKAsyFy52ZWhpY3Vsby5WZWhpY3Vsb01vZGVsIiMKFURlbGV0ZVZl",
+            "aGljdWxvUmVxdWVzdBIKCgJpZBgBIAEoBSIpChZEZWxldGVWZWhpY3Vsb1Jl",
+            "c3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiBwoFRW1wdHkyowMKD1ZlaGljdWxv",
+            "U2VydmljZRJKCgtHZXRWZWhpY3VsbxIcLnZlaGljdWxvLkdldFZlaGljdWxv",
+            "UmVxdWVzdBodLnZlaGljdWxvLkdldFZlaGljdWxvUmVzcG9uc2USRQoPR2V0",
+            "QWxsVmVoaWN1bG9zEg8udmVoaWN1bG8uRW1wdHkaIS52ZWhpY3Vsby5HZXRB",
+            "bGxWZWhpY3Vsb3NSZXNwb25zZRJTCg5DcmVhdGVWZWhpY3VsbxIfLnZlaGlj",
+            "dWxvLkNyZWF0ZVZlaGljdWxvUmVxdWVzdBogLnZlaGljdWxvLkNyZWF0ZVZl",
+            "aGljdWxvUmVzcG9uc2USUwoOVXBkYXRlVmVoaWN1bG8SHy52ZWhpY3Vsby5V",
+            "cGRhdGVWZWhpY3Vsb1JlcXVlc3QaIC52ZWhpY3Vsby5VcGRhdGVWZWhpY3Vs",
+            "b1Jlc3BvbnNlElMKDkRlbGV0ZVZlaGljdWxvEh8udmVoaWN1bG8uRGVsZXRl",
+            "VmVoaWN1bG9SZXF1ZXN0GiAudmVoaWN1bG8uRGVsZXRlVmVoaWN1bG9SZXNw",
+            "b25zZUIgqgIdTWljcm9zZXJ2aWNpb1ZlaGljdWxvcy5Qcm90b3NiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::MicroservicioVehiculos.Protos.VehiculoModel), global::MicroservicioVehiculos.Protos.VehiculoModel.Parser, new[]{ "Id", "Placa", "TipoMaquinaria", "EstadoOperativo", "CapacidadCombustible", "FechaRegistro", "ConsumoCombustibleKm", "Estado" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MicroservicioVehiculos.Protos.VehiculoModel), global::MicroservicioVehiculos.Protos.VehiculoModel.Parser, new[]{ "Id", "Placa", "TipoMaquinaria", "EstadoOperativo", "CapacidadCombustible", "FechaRegistro", "ConsumoCombustibleKm", "Estado", "Descripcion", "Nombre" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MicroservicioVehiculos.Protos.GetVehiculoRequest), global::MicroservicioVehiculos.Protos.GetVehiculoRequest.Parser, new[]{ "Id" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MicroservicioVehiculos.Protos.GetVehiculoResponse), global::MicroservicioVehiculos.Protos.GetVehiculoResponse.Parser, new[]{ "Vehiculo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MicroservicioVehiculos.Protos.GetAllVehiculosResponse), global::MicroservicioVehiculos.Protos.GetAllVehiculosResponse.Parser, new[]{ "Vehiculos" }, null, null, null, null),
@@ -118,6 +119,8 @@ namespace MicroservicioVehiculos.Protos {
       fechaRegistro_ = other.fechaRegistro_;
       consumoCombustibleKm_ = other.consumoCombustibleKm_;
       estado_ = other.estado_;
+      descripcion_ = other.descripcion_;
+      nombre_ = other.nombre_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -238,6 +241,30 @@ namespace MicroservicioVehiculos.Protos {
       }
     }
 
+    /// <summary>Field number for the "descripcion" field.</summary>
+    public const int DescripcionFieldNumber = 9;
+    private string descripcion_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Descripcion {
+      get { return descripcion_; }
+      set {
+        descripcion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "nombre" field.</summary>
+    public const int NombreFieldNumber = 10;
+    private string nombre_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Nombre {
+      get { return nombre_; }
+      set {
+        nombre_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -261,6 +288,8 @@ namespace MicroservicioVehiculos.Protos {
       if (FechaRegistro != other.FechaRegistro) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(ConsumoCombustibleKm, other.ConsumoCombustibleKm)) return false;
       if (Estado != other.Estado) return false;
+      if (Descripcion != other.Descripcion) return false;
+      if (Nombre != other.Nombre) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -276,6 +305,8 @@ namespace MicroservicioVehiculos.Protos {
       if (FechaRegistro.Length != 0) hash ^= FechaRegistro.GetHashCode();
       if (ConsumoCombustibleKm != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(ConsumoCombustibleKm);
       if (Estado.Length != 0) hash ^= Estado.GetHashCode();
+      if (Descripcion.Length != 0) hash ^= Descripcion.GetHashCode();
+      if (Nombre.Length != 0) hash ^= Nombre.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -326,6 +357,14 @@ namespace MicroservicioVehiculos.Protos {
         output.WriteRawTag(66);
         output.WriteString(Estado);
       }
+      if (Descripcion.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(Descripcion);
+      }
+      if (Nombre.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(Nombre);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -368,6 +407,14 @@ namespace MicroservicioVehiculos.Protos {
         output.WriteRawTag(66);
         output.WriteString(Estado);
       }
+      if (Descripcion.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(Descripcion);
+      }
+      if (Nombre.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(Nombre);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -401,6 +448,12 @@ namespace MicroservicioVehiculos.Protos {
       }
       if (Estado.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Estado);
+      }
+      if (Descripcion.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Descripcion);
+      }
+      if (Nombre.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Nombre);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -437,6 +490,12 @@ namespace MicroservicioVehiculos.Protos {
       }
       if (other.Estado.Length != 0) {
         Estado = other.Estado;
+      }
+      if (other.Descripcion.Length != 0) {
+        Descripcion = other.Descripcion;
+      }
+      if (other.Nombre.Length != 0) {
+        Nombre = other.Nombre;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -489,6 +548,14 @@ namespace MicroservicioVehiculos.Protos {
             Estado = input.ReadString();
             break;
           }
+          case 74: {
+            Descripcion = input.ReadString();
+            break;
+          }
+          case 82: {
+            Nombre = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -538,6 +605,14 @@ namespace MicroservicioVehiculos.Protos {
           }
           case 66: {
             Estado = input.ReadString();
+            break;
+          }
+          case 74: {
+            Descripcion = input.ReadString();
+            break;
+          }
+          case 82: {
+            Nombre = input.ReadString();
             break;
           }
         }

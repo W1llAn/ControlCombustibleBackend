@@ -13,6 +13,8 @@ message VehiculoModel {
   string fechaRegistro = 6;       // ISO 8601 text
   double consumoCombustibleKm = 7;
   string estado = 8;              // "Eliminado", "Activo"
+  string descripcion = 9;  
+  string nombre = 10;  
 }
 
 // Requests y Responses
