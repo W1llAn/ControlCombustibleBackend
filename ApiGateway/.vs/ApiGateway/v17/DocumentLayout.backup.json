@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\controllers\\vehiculoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|solutionrelative:controllers\\vehiculoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5E1FFCFE-E147-426A-B93C-02A1C87E8854}|ApiGateway.csproj|c:\\users\\user\\git\\controlcombustiblebackend\\apigateway\\protos\\usuarios.proto||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 187,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +54,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "VehiculosController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\Controllers\\VehiculosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\VehiculosController.cs",
+              "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\Controllers\\VehiculosController.cs",
+              "RelativeToolTip": "Controllers\\VehiculosController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwBYAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T17:03:30.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Dockerfile",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\Dockerfile",
               "RelativeDocumentMoniker": "Dockerfile",
@@ -58,8 +75,7 @@
               "RelativeToolTip": "Dockerfile",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-05-04T00:25:14.099Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T00:25:14.099Z"
             },
             {
               "$type": "Document",
@@ -76,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Usuarios.proto",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\Protos\\Usuarios.proto",
               "RelativeDocumentMoniker": "Protos\\Usuarios.proto",
@@ -84,12 +100,11 @@
               "RelativeToolTip": "Protos\\Usuarios.proto",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003853|",
-              "WhenOpened": "2025-05-04T00:21:50.507Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-04T00:21:50.507Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -108,7 +123,7 @@
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\User\\git\\ControlCombustibleBackend\\ApiGateway\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-05-04T00:14:02.58Z",
               "EditorCaption": ""
