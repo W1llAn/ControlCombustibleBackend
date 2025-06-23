@@ -5,17 +5,41 @@
 *.userosscache
 *.sln.docstates
 
+# Rider / JetBrains
+.idea/
+
 # Build artifacts
+bin/
+obj/
 **/bin/
 **/obj/
 
-# Rider
-.idea/
 
-# IIS Express
-.vs/
-
-# Archivos de docker, logs, cachés
-docker-compose.*.yml
+# Otros temporales
 *.log
+*.tlog
+*.tmp
+*.cache
+*.bak
+
+# Archivos de configuración local de Visual Studio
+*.sdf
+*.dbmdl
+*.vssscc
+*.vspscc
+
+
+# Sistema operativo
 .DS_Store
+Thumbs.db
+
+# Archivos de publicación
+**/publish/
+**/TestResults/
+**/*.Publish.xml
+
+# Archivos de usuario de VS Code
+.vscode/
+
+# Archivos del servidor local
+*.pid

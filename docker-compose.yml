@@ -1,34 +1,34 @@
 version: '3.8'
 
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=123456789aA@
-      - MSSQL_PID=Developer
-    ports:
-      - "1515:1433"
-    volumes:
-      - sql_data:/var/opt/mssql
-    networks:
-      - red-ms
+#  sqlserver:
+#    image: mcr.microsoft.com/mssql/server:2022-latest
+#    container_name: sqlserver
+#    environment:
+#      - ACCEPT_EULA=Y
+#      - SA_PASSWORD=123456789aA@
+#      - MSSQL_PID=Developer
+#    ports:
+#      - "1515:1433"
+#    volumes:
+#      - sql_data:/var/opt/mssql
+#  networks:
+#     - red-ms
+      
   microservicio-autenticacion:
     build:
       context: ./MicroservicioAutenticacion
       dockerfile: Dockerfile
     container_name: microservicio-autenticacion
     ports:
-      - "5000:8080" # Puerto externo : puerto interno del contenedor
+      - "5000:8080"
       - "5001:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=UsuariosDB;User Id=sa;Password=123456789aA@;TrustServerCertificate=true;
-
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - sqlserver
-    restart: always
+      - postgres-db
+    restart: unless-stopped
     networks:
       - red-ms
 
@@ -38,17 +38,17 @@ services:
       dockerfile: Dockerfile
     container_name: microservicio-vehiculos-livianos
     ports:
-      - "5002:8080" # Puerto externo : puerto interno del contenedor
+      - "5002:8080"
       - "5003:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=LivianosDB;User Id=sa;Password=123456789aA@;TrustServerCertificate=true;
-
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - microservicio-autenticacion
-    restart: always
+      - postgres-db
+    restart: unless-stopped
     networks:
       - red-ms
+
 
   api-gateway:
     build:
@@ -63,12 +63,28 @@ services:
 
     depends_on:
       - microservicio-autenticacion
-    restart: always
+    restart: unless-stopped
+    networks:
+      - red-ms
+
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-container
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: contraseña123
+      POSTGRES_DB: UsuariosDB
+    ports:
+      - "5555:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - red-ms
 
 volumes:
   sql_data:
+  postgres_data:
 
 networks:
   red-ms:

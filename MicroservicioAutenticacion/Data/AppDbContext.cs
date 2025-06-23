@@ -13,7 +13,7 @@ namespace Microservicio_Administracion.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>().Property(u => u.fecha_creacion).HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Usuario>().Property(u => u.fecha_creacion).HasDefaultValueSql("now()");
             modelBuilder.Entity<Usuario>().Property(u => u.estado).HasDefaultValue(Estado.Activo);
             //base.OnModelCreating(modelBuilder);
         }
