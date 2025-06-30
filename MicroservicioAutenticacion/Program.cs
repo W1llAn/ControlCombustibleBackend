@@ -145,7 +145,7 @@ using (var scope = app.Services.CreateScope())
 
 
 app.MapGrpcService<UsuariosProtoImpl>();
-
+app.MapGrpcService<RolesProtoImpl>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

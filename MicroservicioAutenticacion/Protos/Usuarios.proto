@@ -76,3 +76,34 @@ message ListaUsuarios {
 
 // Respuesta vacía
 message RespuestaVacia {}
+
+service RolesService {
+  rpc CrearRol (RolCrear) returns (Rol);
+  rpc ActualizarRol (RolActualizar) returns (Rol);
+  rpc EliminarRol (RolEliminar) returns (RespuestaVacia);
+  rpc ListarRoles (RespuestaVacia) returns (ListaRoles);
+  rpc ObtenerRol (RolObtener) returns (Rol);
+}
+
+message RolCrear {
+  string nombre = 1;
+  string descripcion = 2;
+}
+
+message RolActualizar {
+  int32 id = 1;
+  string nombre = 2;
+  string descripcion = 3;
+}
+
+message RolEliminar {
+  int32 id = 1;
+}
+
+message RolObtener {
+  int32 id = 1;
+}
+
+message ListaRoles {
+  repeated Rol roles = 1;
+}
