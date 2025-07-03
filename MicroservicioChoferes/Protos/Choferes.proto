@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+option csharp_namespace = "MicroservicioChoferes.Protos";
+
+package choferes;
+
+message Chofer{
+  int32 id = 1;
+  string nombre = 2;
+  string identificacion = 3;
+  bool disponible = 4;
+  Estado estado = 5;
+  TipoMaquinaria tipo_maquinaria=6;
+  string fecha_nacimiento = 7;
+  int32 id_usuario = 8;
+}
+
+enum Estado {
+  ELIMINADO = 0;
+  ACTIVO = 1;
+}
+
+enum TipoMaquinaria {
+  Liviano = 0;
+  Pesado = 1;
+}
+enum Genero {
+  Masculino = 0;
+  Femenino = 1;
+}
+
+message CrearChoferRequest {
+  string nombre = 1;
+  string identificacion = 2;
+  bool disponible = 3;
+  Estado estado = 4;
+  TipoMaquinaria tipo_maquinaria = 5;
+  string fecha_nacimiento = 6;
+  int32 id_usuario = 7;
+}
+
+message ActualizarChoferRequest {
+  int32 id = 1;
+  string nombre = 2;
+  string identificacion = 3;
+  bool disponible = 4;
+  Estado estado = 5;
+  TipoMaquinaria tipo_maquinaria = 6;
+  string fecha_nacimiento = 7;
+  int32 id_usuario = 8;
+}
+
+message EliminarChoferRequest {
+  int32 id = 1;
+}
+
+message EliminarChoferResponse {
+  bool exito = 1;
+}
+
+message ListaChoferes {
+  repeated Chofer usuarios = 1;
+}
+
+message RespuestaVaciaChofer {}
+
+message ObtenerChoferRequest {
+  int32 id = 1;
+}
+
+service ChoferesService {
+  rpc CrearChofer(CrearChoferRequest) returns (Chofer);
+  rpc ActualizarChofer(ActualizarChoferRequest) returns (Chofer);
+  rpc EliminarChofer(EliminarChoferRequest) returns (EliminarChoferResponse);
+  rpc ObtenerChofer(ObtenerChoferRequest) returns (Chofer);
+  rpc ObtenerTodosChoferes(RespuestaVaciaChofer) returns (ListaChoferes);
+}
+
+

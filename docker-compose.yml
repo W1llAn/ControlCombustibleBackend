@@ -1,19 +1,6 @@
 version: '3.8'
 
 services:
-#  sqlserver:
-#    image: mcr.microsoft.com/mssql/server:2022-latest
-#    container_name: sqlserver
-#    environment:
-#      - ACCEPT_EULA=Y
-#      - SA_PASSWORD=123456789aA@
-#      - MSSQL_PID=Developer
-#    ports:
-#      - "1515:1433"
-#    volumes:
-#      - sql_data:/var/opt/mssql
-#  networks:
-#     - red-ms
       
   microservicio-autenticacion:
     build:
@@ -32,11 +19,11 @@ services:
     networks:
       - red-ms
 
-  microservicio-vehiculos-livianos:
+  microservicio-choferes:
     build:
-      context: ./MicroservicioVehiculos
+      context: ./MicroservicioChoferes
       dockerfile: Dockerfile
-    container_name: microservicio-vehiculos-livianos
+    container_name: microservicio-choferes
     ports:
       - "5002:8080"
       - "5003:8081"
@@ -44,7 +31,24 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - postgres-db
+      - microservicio-autenticacion
+    restart: unless-stopped
+    networks:
+      - red-ms
+
+  microservicio-vehiculos-livianos:
+    build:
+      context: ./MicroservicioVehiculos
+      dockerfile: Dockerfile
+    container_name: microservicio-vehiculos-livianos
+    ports:
+      - "5004:8080"
+      - "5005:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+    depends_on:
+      - microservicio-autenticacion
     restart: unless-stopped
     networks:
       - red-ms
