@@ -29,6 +29,8 @@
 	  <Protobuf Include="Protos\Usuarios.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\vehiculo.proto" GrpcServices="Client" />
 	  <Protobuf Include="Protos\Choferes.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\AsignacionRutas.proto" GrpcServices="Client" />
+	  <Protobuf Include="Protos\Rutas.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>
