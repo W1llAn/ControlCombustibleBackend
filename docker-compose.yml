@@ -52,7 +52,22 @@ services:
     restart: unless-stopped
     networks:
       - red-ms
-
+  microservicio-asignacion-rutas:
+    build:
+      context: ./MicroservicioRutas
+      dockerfile: Dockerfile
+    container_name: microservicio-asignacion-rutas
+    ports:
+      - "5006:8080"
+      - "5007:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+    depends_on:
+      - microservicio-autenticacion
+    restart: unless-stopped
+    networks:
+      - red-ms
 
   api-gateway:
     build:
