@@ -1,0 +1,103 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "MicroservicioConsumoCombustible.Protos";
+
+package consumoCombustibles;
+
+message AsignacionConsumoCombustible{
+  int32 id = 1;
+  string fechaRegistro = 2;
+  Estado estado=3;
+  double combustibleEstimado=4;
+  double combustibleReal=5;
+
+  AsignacionRuta asignacionRuta = 6;
+}
+
+enum Estado {
+  ELIMINADO = 0;
+  ACTIVO = 1;
+}
+
+message AsignacionRuta{
+  int32 id = 1;
+  string fechaAsignacion = 2;
+  Estado estado=3;
+  Chofer chofer =4;
+  Vehiculo vehiculo = 5;
+  Ruta ruta = 6;
+}
+
+message Chofer {
+  int32 id = 1;
+  string nombre = 2;
+  string identificacion = 3;
+  bool disponible = 4;
+  string fechaNacimiento = 5;
+}
+
+message Vehiculo {
+  int32 id = 1;
+  string placa = 2;
+  string tipoMaquinaria = 3;
+  string estadoOperativo = 4;
+  double capacidadCombustible = 5;
+  string fechaRegistro = 6;
+  double consumoCombustibleKm = 7;
+  string estado = 8;
+  string descripcion = 9;
+  string nombre = 10;
+}
+
+message Ruta {
+  int32 id = 1;
+  string nombre = 2;
+  string puntoInicio = 3;
+  string puntoFin = 4;
+  double distancia = 5;
+  Estado estado = 6;
+}
+
+
+message CrearConsumoCombustibleRequest {
+  string fechaRegistro = 1;
+  Estado estado=2;
+  double combustibleEstimado=3;
+  double combustibleReal=4;
+  int32 asignacionRutaId = 5;
+}
+
+message ActualizarConsumoCombustibleRequest {
+  int32 id = 1;
+  string fechaRegistro = 2;
+  Estado estado=3;
+  double combustibleEstimado=4;
+  double combustibleReal=5;
+  int32 asignacionRutaId = 6;
+}
+
+message EliminarConsumoCombustibleRequest {
+  int32 id = 1;
+}
+
+message EliminarConsumoCombustibleResponse {
+  bool exito = 1;
+}
+
+message ListaConsumosCombustibles{
+  repeated AsignacionConsumoCombustible asignacionConsumoCombustible = 1;
+}
+
+message RespuestaVaciaConsumoCombustible {}
+
+message ObtenerConsumoCombustibleRequest {
+  int32 id = 1;
+}
+
+service ConsumoCombustiblesService {
+  rpc CrearConsumoCombustible(CrearConsumoCombustibleRequest) returns (AsignacionConsumoCombustible);
+  rpc ActualizarConsumoCombustible(ActualizarConsumoCombustibleRequest) returns (AsignacionConsumoCombustible);
+  rpc EliminarConsumoCombustible(EliminarConsumoCombustibleRequest) returns (EliminarConsumoCombustibleResponse);
+  rpc ObtenerConsumoCombustibleId(ObtenerConsumoCombustibleRequest) returns (AsignacionConsumoCombustible);
+  rpc ObtenerTodosConsumosCombustible(RespuestaVaciaConsumoCombustible) returns (ListaConsumosCombustibles);
+}
