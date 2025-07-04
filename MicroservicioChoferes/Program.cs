@@ -26,6 +26,14 @@ builder.WebHost.ConfigureKestrel(options =>
     });
 });
 
+builder.Services.AddSingleton(sp =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var direccionUsuarios = config["GrpcServicios:Usuarios"];
+    return new UsuariosGrpcClient(direccionUsuarios);
+});
+
+
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
 {

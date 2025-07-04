@@ -9,9 +9,6 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Protos\Usuarios.proto" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.31.1" />
@@ -35,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\Usuarios.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\Usuarios.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

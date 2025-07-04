@@ -1,0 +1,94 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "MicroservicioRutas.Protos";
+
+package asignacionRutas;
+
+message AsignacionRuta{
+  int32 id = 1;
+  string fechaAsignacion = 2;
+  Estado estado=3;
+  Chofer chofer = 7;
+  Vehiculo vehiculo = 8;
+  Ruta ruta = 9;
+}
+
+enum Estado {
+  ELIMINADO = 0;
+  ACTIVO = 1;
+}
+message Chofer {
+  int32 id = 1;
+  string nombre = 2;
+  string identificacion = 3;
+  bool disponible = 4;
+  string fechaNacimiento = 5;
+}
+
+message Vehiculo {
+  int32 id = 1;
+  string placa = 2;
+  string tipoMaquinaria = 3;
+  string estadoOperativo = 4;
+  double capacidadCombustible = 5;
+  string fechaRegistro = 6;
+  double consumoCombustibleKm = 7;
+  string estado = 8;
+  string descripcion = 9;
+  string nombre = 10;
+}
+
+message Ruta {
+  int32 id = 1;
+  string nombre = 2;
+  string puntoInicio = 3;
+  string puntoFin = 4;
+  double distancia = 5;
+  Estado estado = 6;
+}
+
+
+message CrearAsignacionRutaRequest {
+  string fechaAsignacion = 1;
+  Estado estado=2;
+  int32 choferId = 3;
+  int32 vehiculoId = 4;
+  int32 rutaId = 5;
+}
+
+message ActualizarAsignacionRutaRequest {
+  int32 id = 1;
+  string fechaAsignacion = 2;
+  Estado estado=3;
+  int32 choferId = 4;
+  int32 vehiculoId = 5;
+  int32 rutaId = 6;
+}
+
+message EliminarAsignacionRutaRequest {
+  int32 id = 1;
+}
+
+message EliminarAsignacionRutaResponse {
+  bool exito = 1;
+}
+
+message ListaRutasAsignadas{
+  repeated AsignacionRuta asignacionRuta = 1;
+}
+
+message RespuestaVaciaAsignadaRuta {}
+
+message ObtenerRutaAsignadaRequest {
+  int32 id = 1;
+}
+
+service AsignacionRutasService {
+  rpc CrearAsignacionRuta(CrearAsignacionRutaRequest) returns (AsignacionRuta);
+  rpc ActualizarRutaAsignada(ActualizarAsignacionRutaRequest) returns (AsignacionRuta);
+  rpc EliminarAsignacionRuta(EliminarAsignacionRutaRequest) returns (EliminarAsignacionRutaResponse);
+  rpc ObtenerAsignacionRutaId(ObtenerRutaAsignadaRequest) returns (AsignacionRuta);
+  rpc ObtenerTodasRutasAsignadas(RespuestaVaciaAsignadaRuta) returns (ListaRutasAsignadas);
+}
+
+
