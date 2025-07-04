@@ -30,7 +30,13 @@ namespace MicroservicioRutas.Controllers
             _context.AsignacionRutas.Add(asignacion);
             await _context.SaveChangesAsync();
 
-            return MapToAsignacionRutaProto(asignacion);
+            var asignacionConRelaciones = await _context.AsignacionRutas
+            .Include(a => a.Chofer)
+            .Include(a => a.Vehiculo)
+            .Include(a => a.Ruta)
+            .FirstOrDefaultAsync(a => a.id == asignacion.id);
+
+            return MapToAsignacionRutaProto(asignacionConRelaciones!);
         }
 
         public override async Task<AsignacionRuta> ActualizarRutaAsignada(ActualizarAsignacionRutaRequest request, ServerCallContext context)
@@ -47,7 +53,14 @@ namespace MicroservicioRutas.Controllers
 
             await _context.SaveChangesAsync();
 
-            return MapToAsignacionRutaProto(asignacion);
+            var asignacionConRelaciones = await _context.AsignacionRutas
+            .Include(a => a.Chofer)
+            .Include(a => a.Vehiculo)
+            .Include(a => a.Ruta)
+            .FirstOrDefaultAsync(a => a.id == asignacion.id);
+
+            return MapToAsignacionRutaProto(asignacionConRelaciones!);
+
         }
 
         public override async Task<EliminarAsignacionRutaResponse> EliminarAsignacionRuta(EliminarAsignacionRutaRequest request, ServerCallContext context)

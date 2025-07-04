@@ -63,9 +63,10 @@ namespace MicroservicioVehiculos.Services
                 if (string.IsNullOrWhiteSpace(model.Placa))
                     throw new RpcException(new Status(StatusCode.InvalidArgument, "La placa es obligatoria."));
 
-                DateTime fechaRegistro;
-                if (!DateTime.TryParse(model.FechaRegistro, out fechaRegistro))
+                if (!DateTime.TryParse(model.FechaRegistro, out var fechaRegistro))
                     throw new RpcException(new Status(StatusCode.InvalidArgument, "Fecha de registro inválida."));
+
+                fechaRegistro = DateTime.SpecifyKind(fechaRegistro, DateTimeKind.Utc);
 
                 var veh = new Vehiculo
                 {
@@ -108,6 +109,8 @@ namespace MicroservicioVehiculos.Services
 
                 if (!DateTime.TryParse(model.FechaRegistro, out var fecha))
                     throw new RpcException(new Status(StatusCode.InvalidArgument, "Fecha de registro inválida."));
+
+                fecha = DateTime.SpecifyKind(fecha, DateTimeKind.Utc);
 
                 veh.placa = model.Placa;
                 veh.tipoMaquinaria = model.TipoMaquinaria;
