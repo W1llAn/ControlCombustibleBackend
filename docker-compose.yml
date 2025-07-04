@@ -29,6 +29,7 @@ services:
       - "5003:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - GrpcServicios__Usuarios=http://microservicio-autenticacion:8080
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
       - microservicio-autenticacion
@@ -102,7 +103,6 @@ services:
       - red-ms
 
 volumes:
-  sql_data:
   postgres_data:
 
 networks:

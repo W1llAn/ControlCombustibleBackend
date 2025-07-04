@@ -7,79 +7,142 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MicroservicioAutenticacion.Controllers
 {
-    public class UsuariosProtoImpl: UsuariosService.UsuariosServiceBase
+    public class UsuariosProtoImpl : UsuariosService.UsuariosServiceBase
     {
         private readonly AppDbContext _context;
-        private  IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
+
         public UsuariosProtoImpl(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
         }
+
         [Authorize(Policy = "AdministradorPolitica")]
         public override async Task<Usuario> RegistrarUsuario(UsuarioRegistro request, ServerCallContext context)
         {
-            var nuevoUsuario = new Entities.Usuario
+            try
             {
-                email = request.Email,
-                Nombre_usuario = request.NombreUsuario,
-                hash_contrasena = request.HashContrasena,
-                rol = await _context.Roles.FindAsync(request.RolId),
-            };
+                if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.NombreUsuario))
+                    throw new RpcException(new Status(StatusCode.InvalidArgument, "Email y nombre de usuario son obligatorios"));
 
-            _context.Usuarios.Add(nuevoUsuario);
-            await _context.SaveChangesAsync();
+                var rol = await _context.Roles.FindAsync(request.RolId);
+                if (rol == null)
+                    throw new RpcException(new Status(StatusCode.NotFound, $"Rol con ID {request.RolId} no encontrado"));
 
-            return MapUsuario(nuevoUsuario);
+                var nuevoUsuario = new Entities.Usuario
+                {
+                    email = request.Email,
+                    Nombre_usuario = request.NombreUsuario,
+                    hash_contrasena = request.HashContrasena,
+                    rol = rol
+                };
+
+                _context.Usuarios.Add(nuevoUsuario);
+                await _context.SaveChangesAsync();
+
+                return MapUsuario(nuevoUsuario);
+            }
+            catch (RpcException) { throw; }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al registrar usuario: {ex.Message}"));
+            }
         }
+
         [Authorize(Policy = "AdministradorPolitica")]
         public override async Task<RespuestaVacia> BorrarUsuario(UsuarioBorrar request, ServerCallContext context)
         {
-            var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
-            if (usuario == null) throw new RpcException(new Status(StatusCode.NotFound, "Usuario no encontrado"));
+            try
+            {
+                var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
+                if (usuario == null)
+                    throw new RpcException(new Status(StatusCode.NotFound, "Usuario no encontrado"));
 
-            usuario.estado = Entities.Estado.Eliminado;
+                usuario.estado = Entities.Estado.Eliminado;
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-            return new RespuestaVacia();
+                return new RespuestaVacia();
+            }
+            catch (RpcException) { throw; }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al borrar usuario: {ex.Message}"));
+            }
         }
+
         [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<ListaUsuarios> SeleccionarUsuarios(RespuestaVacia request, ServerCallContext context)
         {
-            var usuarios = await _context.Usuarios.Include(u => u.rol).ToListAsync();
-            var lista = new ListaUsuarios();
-            lista.Usuarios.AddRange(usuarios.Select(u => MapUsuario(u)));
-            return lista;
+            try
+            {
+                var usuarios = await _context.Usuarios.Include(u => u.rol).ToListAsync();
+
+                var lista = new ListaUsuarios();
+                lista.Usuarios.AddRange(usuarios.Select(MapUsuario));
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al obtener usuarios: {ex.Message}"));
+            }
         }
+
         [Authorize(Policy = "SupervisorAdministradorPolitica")]
         public override async Task<Usuario> ActualizarUsuario(UsuarioActualizar request, ServerCallContext context)
         {
-            var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
-            if (usuario == null) throw new RpcException(new Status(StatusCode.NotFound, "Usuario no encontrado"));
+            try
+            {
+                var usuario = await _context.Usuarios.Include(u => u.rol).FirstOrDefaultAsync(u => u.id == request.Id);
+                if (usuario == null)
+                    throw new RpcException(new Status(StatusCode.NotFound, "Usuario no encontrado"));
 
-            usuario.email = request.Email;
-            usuario.Nombre_usuario = request.NombreUsuario;
-            usuario.hash_contrasena = request.HashContrasena;
-            usuario.estado = (Entities.Estado)request.Estado;
-            usuario.rol = await _context.Roles.FindAsync(request.RolId);
+                var rol = await _context.Roles.FindAsync(request.RolId);
+                if (rol == null)
+                    throw new RpcException(new Status(StatusCode.NotFound, $"Rol con ID {request.RolId} no encontrado"));
 
-            await _context.SaveChangesAsync();
-            return MapUsuario(usuario);
+                usuario.email = request.Email;
+                usuario.Nombre_usuario = request.NombreUsuario;
+                usuario.hash_contrasena = request.HashContrasena;
+                usuario.estado = (Entities.Estado)request.Estado;
+                usuario.rol = rol;
+
+                await _context.SaveChangesAsync();
+
+                return MapUsuario(usuario);
+            }
+            catch (RpcException) { throw; }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al actualizar usuario: {ex.Message}"));
+            }
         }
 
         public override async Task<UsuarioLoginRespuesta> Login(UsuarioLogin request, ServerCallContext context)
         {
-            var usuario = await _context.Usuarios
-                .Include(u => u.rol)
-                .FirstOrDefaultAsync(u => u.Nombre_usuario == request.NombreUsuario && u.hash_contrasena == request.HashContrasena);
-
-            if (usuario == null || usuario.estado == Entities.Estado.Eliminado)
+            try
             {
-                return new UsuarioLoginRespuesta { Token = "" };
-            }
+                var usuario = await _context.Usuarios
+                    .Include(u => u.rol)
+                    .FirstOrDefaultAsync(u =>
+                        u.Nombre_usuario == request.NombreUsuario &&
+                        u.hash_contrasena == request.HashContrasena);
 
-            var tokenProvider = new TokenProvider(_configuration);
-            return new UsuarioLoginRespuesta { Token = tokenProvider.Create(usuario) };
+                if (usuario == null || usuario.estado == Entities.Estado.Eliminado)
+                {
+                    return new UsuarioLoginRespuesta { Token = "" };
+                }
+
+                var tokenProvider = new TokenProvider(_configuration);
+                var token = tokenProvider.Create(usuario);
+
+                return new UsuarioLoginRespuesta { Token = token };
+            }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al iniciar sesión: {ex.Message}"));
+            }
         }
 
         private Usuario MapUsuario(Entities.Usuario usuario)
@@ -101,5 +164,4 @@ namespace MicroservicioAutenticacion.Controllers
             };
         }
     }
-   
 }

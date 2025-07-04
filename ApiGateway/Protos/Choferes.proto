@@ -36,7 +36,12 @@ message CrearChoferRequest {
   Estado estado = 4;
   TipoMaquinaria tipo_maquinaria = 5;
   string fecha_nacimiento = 6;
-  int32 id_usuario = 7;
+
+  // Ya no se envía solo el ID, sino los datos para registrar el usuario
+  string email = 7;
+  string nombre_usuario = 8;
+  string hash_contrasena = 9;
+  int32 rol_id = 10;
 }
 
 message ActualizarChoferRequest {

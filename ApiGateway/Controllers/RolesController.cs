@@ -3,6 +3,7 @@ using Grpc.Net.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MicroservicioAutenticacion.Protos;
+using GrpcStatusCode = Grpc.Core.StatusCode;
 
 namespace ApiGateway.Controllers
 {
@@ -26,7 +27,6 @@ namespace ApiGateway.Controllers
             var channel = GrpcChannel.ForAddress(url);
             var client = new RolesService.RolesServiceClient(channel);
 
-            // Extraer token JWT
             metadata = new Metadata();
             var authHeader = Request.Headers["Authorization"].ToString();
             if (!string.IsNullOrWhiteSpace(authHeader) && authHeader.StartsWith("Bearer "))
@@ -42,16 +42,30 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> ListarRoles()
         {
             var cliente = CrearClienteGrpc(out var metadata);
-            var respuesta = await cliente.ListarRolesAsync(new RespuestaVacia(), headers: metadata);
-            return Ok(respuesta.Roles);
+            try
+            {
+                var respuesta = await cliente.ListarRolesAsync(new RespuestaVacia(), headers: metadata);
+                return Ok(respuesta.Roles);
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> ObtenerRol(int id)
         {
             var cliente = CrearClienteGrpc(out var metadata);
-            var respuesta = await cliente.ObtenerRolAsync(new RolObtener { Id = id }, headers: metadata);
-            return Ok(respuesta);
+            try
+            {
+                var respuesta = await cliente.ObtenerRolAsync(new RolObtener { Id = id }, headers: metadata);
+                return Ok(respuesta);
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
         }
 
         [HttpPost("crear")]
@@ -59,8 +73,15 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> CrearRol([FromBody] RolCrear request)
         {
             var cliente = CrearClienteGrpc(out var metadata);
-            var respuesta = await cliente.CrearRolAsync(request, headers: metadata);
-            return Ok(respuesta);
+            try
+            {
+                var respuesta = await cliente.CrearRolAsync(request, headers: metadata);
+                return Ok(respuesta);
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
         }
 
         [HttpPut("actualizar")]
@@ -68,8 +89,15 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> ActualizarRol([FromBody] RolActualizar request)
         {
             var cliente = CrearClienteGrpc(out var metadata);
-            var respuesta = await cliente.ActualizarRolAsync(request, headers: metadata);
-            return Ok(respuesta);
+            try
+            {
+                var respuesta = await cliente.ActualizarRolAsync(request, headers: metadata);
+                return Ok(respuesta);
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
         }
 
         [HttpDelete("eliminar/{id}")]
@@ -77,8 +105,28 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> EliminarRol(int id)
         {
             var cliente = CrearClienteGrpc(out var metadata);
-            await cliente.EliminarRolAsync(new RolEliminar { Id = id }, headers: metadata);
-            return Ok(new { Exito = true });
+            try
+            {
+                await cliente.EliminarRolAsync(new RolEliminar { Id = id }, headers: metadata);
+                return Ok(new { Exito = true });
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
+        }
+
+        // Método reutilizable para traducir errores gRPC a REST
+        private IActionResult HandleRpcException(RpcException ex)
+        {
+            return ex.Status.StatusCode switch
+            {
+                GrpcStatusCode.NotFound => NotFound(new { error = ex.Status.Detail }),
+                GrpcStatusCode.InvalidArgument => BadRequest(new { error = ex.Status.Detail }),
+                GrpcStatusCode.PermissionDenied => StatusCode(403, new { error = ex.Status.Detail }),
+                GrpcStatusCode.Unauthenticated => Unauthorized(new { error = ex.Status.Detail }),
+                _ => StatusCode(500, new { error = $"Error interno: {ex.Status.Detail}" })
+            };
         }
     }
 }
