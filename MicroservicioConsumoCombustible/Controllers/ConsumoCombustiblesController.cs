@@ -19,6 +19,7 @@ namespace MicroservicioConsumoCombustible.Controllers
 
         public override async Task<AsignacionConsumoCombustible> CrearConsumoCombustible(CrearConsumoCombustibleRequest request, ServerCallContext context)
         {
+
             var asignacionRuta = await _context.AsignacionRutas
                 .Include(a => a.Chofer)
                 .Include(a => a.Vehiculo)
@@ -28,13 +29,18 @@ namespace MicroservicioConsumoCombustible.Controllers
             if (asignacionRuta == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Asignación de ruta no encontrada"));
 
+            var distanciaKm = asignacionRuta.Ruta.distancia;
+            var consumoPorKm = asignacionRuta.Vehiculo.consumoCombustibleKm;
+            var combustibleEstimado = distanciaKm * consumoPorKm;
+
             var consumo = new ConsumoCombustible
             {
                 fechaRegistro = DateTime.SpecifyKind(DateTime.Parse(request.FechaRegistro), DateTimeKind.Utc),
                 estado = (Entities.Estado)request.Estado,
-                combustibleEstimado = (decimal)request.CombustibleEstimado,
+                combustibleEstimado = combustibleEstimado,
                 combustibleReal = (decimal)request.CombustibleReal,
-                idAsignacionRuta = request.AsignacionRutaId
+                idAsignacionRuta = request.AsignacionRutaId,
+                motivo = string.IsNullOrWhiteSpace(request.Motivo) ? "Consumo correcto" : request.Motivo
             };
 
             _context.ConsumoCombustibles.Add(consumo);
@@ -45,24 +51,55 @@ namespace MicroservicioConsumoCombustible.Controllers
 
         public override async Task<AsignacionConsumoCombustible> ActualizarConsumoCombustible(ActualizarConsumoCombustibleRequest request, ServerCallContext context)
         {
-            var consumo = await _context.ConsumoCombustibles.FindAsync(request.Id);
+            var user = context.GetHttpContext().User;
+            if (!user.HasClaim("Rol", "Administrador"))
+            {
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Solo administrador puede actualizar consumos"));
+            }
+
+            var consumo = await _context.ConsumoCombustibles
+                .Include(c => c.asignacionRuta)
+                    .ThenInclude(a => a.Vehiculo)
+                .Include(c => c.asignacionRuta)
+                    .ThenInclude(a => a.Ruta)
+                .FirstOrDefaultAsync(c => c.id == request.Id);
 
             if (consumo == null)
                 throw new RpcException(new Status(StatusCode.NotFound, "Consumo no encontrado"));
 
+            var nuevaAsignacion = await _context.AsignacionRutas
+                .Include(a => a.Vehiculo)
+                .Include(a => a.Ruta)
+                .FirstOrDefaultAsync(a => a.id == request.AsignacionRutaId);
+
+            if (nuevaAsignacion == null)
+                throw new RpcException(new Status(StatusCode.NotFound, "Asignación de ruta no encontrada"));
+
+            var distanciaKm = nuevaAsignacion.Ruta.distancia;
+            var consumoPorKm = nuevaAsignacion.Vehiculo.consumoCombustibleKm;
+            var combustibleEstimado = distanciaKm * consumoPorKm;
+
             consumo.fechaRegistro = DateTime.SpecifyKind(DateTime.Parse(request.FechaRegistro), DateTimeKind.Utc);
             consumo.estado = (Entities.Estado)request.Estado;
-            consumo.combustibleEstimado = (decimal)request.CombustibleEstimado;
             consumo.combustibleReal = (decimal)request.CombustibleReal;
+            consumo.combustibleEstimado = combustibleEstimado;
             consumo.idAsignacionRuta = request.AsignacionRutaId;
+            consumo.motivo = string.IsNullOrWhiteSpace(request.Motivo) ? "Consumo correcto" : request.Motivo;
+
 
             await _context.SaveChangesAsync();
 
             return await MapToProto(consumo.id);
         }
 
+
         public override async Task<EliminarConsumoCombustibleResponse> EliminarConsumoCombustible(EliminarConsumoCombustibleRequest request, ServerCallContext context)
         {
+            var user = context.GetHttpContext().User;
+            if (!user.HasClaim("Rol", "Administrador"))
+            {
+                throw new RpcException(new Status(StatusCode.PermissionDenied, "Solo administrador puede eliminar consumos"));
+            }
             var consumo = await _context.ConsumoCombustibles.FindAsync(request.Id);
 
             if (consumo == null)
@@ -130,6 +167,7 @@ namespace MicroservicioConsumoCombustible.Controllers
             Estado = (Protos.Estado)c.estado,
             CombustibleEstimado = (double)c.combustibleEstimado,
             CombustibleReal = (double)c.combustibleReal,
+            Motivo = c.motivo ?? "Consumo correcto",
             AsignacionRuta = new Protos.AsignacionRuta
             {
                 Id = c.asignacionRuta.id,

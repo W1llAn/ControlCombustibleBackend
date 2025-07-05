@@ -70,9 +70,10 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAssertion(
                 context =>
                 context.User.HasClaim("Rol", "Supervisor") ||
-                context.User.HasClaim("Rol", "Administrador")
+                context.User.HasClaim("Rol", "Administrador")||context.User.HasClaim("Rol", "Operador")
             )
         );
+   
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

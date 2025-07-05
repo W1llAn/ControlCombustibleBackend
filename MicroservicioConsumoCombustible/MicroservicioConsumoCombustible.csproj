@@ -34,10 +34,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 	<ItemGroup>
-		<Folder Include="Migrations\" />
+		<Protobuf Include="Protos\ConsumoCombustibles.proto" GrpcServices="Server" />
 	</ItemGroup>
 	<ItemGroup>
-		<Protobuf Include="Protos\ConsumoCombustibles.proto" GrpcServices="Server" />
+	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 </Project>

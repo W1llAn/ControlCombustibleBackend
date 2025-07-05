@@ -77,6 +77,9 @@ namespace MicroservicioConsumoCombustible.Migrations
                     b.Property<int>("idAsignacionRuta")
                         .HasColumnType("integer");
 
+                    b.Property<string>("motivo")
+                        .HasColumnType("text");
+
                     b.HasKey("id");
 
                     b.HasIndex("idAsignacionRuta");

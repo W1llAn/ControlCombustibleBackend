@@ -10,8 +10,9 @@ message AsignacionConsumoCombustible{
   Estado estado=3;
   double combustibleEstimado=4;
   double combustibleReal=5;
+  string motivo = 6; 
 
-  AsignacionRuta asignacionRuta = 6;
+  AsignacionRuta asignacionRuta = 7;
 }
 
 enum Estado {
@@ -62,18 +63,18 @@ message Ruta {
 message CrearConsumoCombustibleRequest {
   string fechaRegistro = 1;
   Estado estado=2;
-  double combustibleEstimado=3;
-  double combustibleReal=4;
-  int32 asignacionRutaId = 5;
+  double combustibleReal=3;
+  int32 asignacionRutaId = 4;
+  string motivo = 5;
 }
 
 message ActualizarConsumoCombustibleRequest {
   int32 id = 1;
   string fechaRegistro = 2;
   Estado estado=3;
-  double combustibleEstimado=4;
-  double combustibleReal=5;
-  int32 asignacionRutaId = 6;
+  double combustibleReal=4;
+  int32 asignacionRutaId = 5;
+  string motivo = 6;
 }
 
 message EliminarConsumoCombustibleRequest {

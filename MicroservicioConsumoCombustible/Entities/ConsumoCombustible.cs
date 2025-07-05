@@ -11,6 +11,8 @@ namespace MicroservicioConsumoCombustible.Entities
         public decimal combustibleReal { get; set; }
         public DateTime fechaRegistro { get; set; }
         public Estado estado { get; set; }
+
+        public string? motivo { get; set; } 
         public int idAsignacionRuta { get; set; }
         public AsignacionRuta asignacionRuta { get; set; }
 

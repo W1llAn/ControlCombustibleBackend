@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MicroservicioConsumoCombustible.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,7 @@ namespace MicroservicioConsumoCombustible.Migrations
                     combustibleReal = table.Column<decimal>(type: "numeric", nullable: false),
                     fechaRegistro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     estado = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    motivo = table.Column<string>(type: "text", nullable: true),
                     idAsignacionRuta = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
