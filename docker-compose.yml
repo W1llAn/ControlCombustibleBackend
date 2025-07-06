@@ -53,9 +53,26 @@ services:
     restart: unless-stopped
     networks:
       - red-ms
+  microservicio-rutas:
+      build:
+        context: ./MicroservicioRutas
+        dockerfile: Dockerfile
+      container_name: microservicio-rutas
+      ports:
+        - "5010:8080"
+        - "5011:8081"
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+      depends_on:
+        - microservicio-autenticacion
+      restart: unless-stopped
+      networks:
+        - red-ms
+
   microservicio-asignacion-rutas:
     build:
-      context: ./MicroservicioRutas
+      context: ./MicroservicioAsignacionRutas
       dockerfile: Dockerfile
     container_name: microservicio-asignacion-rutas
     ports:
@@ -65,7 +82,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - microservicio-autenticacion
+      - microservicio-rutas
     restart: unless-stopped
     networks:
       - red-ms
@@ -82,7 +99,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - microservicio-autenticacion
+      - microservicio-asignacion-rutas
     restart: unless-stopped
     networks:
       - red-ms

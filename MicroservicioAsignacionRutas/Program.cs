@@ -1,6 +1,5 @@
 using MicroservicioRutas.Controllers;
 using MicroservicioRutas.Data;
-using MicroservicioRutas.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddGrpc();
@@ -26,6 +24,8 @@ builder.WebHost.ConfigureKestrel(options =>
         o.Protocols = HttpProtocols.Http2;
     });
 });
+
+
 //JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
 {
@@ -75,9 +75,6 @@ builder.Services.AddAuthorization(options =>
             )
         );
 });
-
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -118,7 +115,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-app.MapGrpcService<RutasController>();
+
+app.MapGrpcService<AsignacionRutasController>();
+
 app.UseAuthorization();
 
 app.MapControllers();

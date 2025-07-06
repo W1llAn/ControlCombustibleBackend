@@ -55,7 +55,7 @@ namespace MicroservicioRutas.Controllers
             var ruta = await _context.Rutas.FindAsync(request.Id);
             if (ruta == null)
                 return new EliminarRutaResponse { Exito = false };
-
+            /*
             // Verificar si existen asignaciones asociadas
             bool tieneAsignaciones = await _context.AsignacionRutas
                 .AnyAsync(a => a.RutaId == request.Id);
@@ -63,7 +63,7 @@ namespace MicroservicioRutas.Controllers
             if (tieneAsignaciones)
             {
                 throw new RpcException(new Status(StatusCode.FailedPrecondition, "No se puede eliminar la ruta porque tiene asignaciones activas."));
-            }
+            }*/
 
             _context.Rutas.Remove(ruta);
             await _context.SaveChangesAsync();

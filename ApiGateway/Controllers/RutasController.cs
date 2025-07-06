@@ -19,7 +19,7 @@ namespace ApiGateway.Controllers
 
         private RutasService.RutasServiceClient CrearClienteGrpc(out Metadata metadata)
         {
-            var url = _configuration["grcp:asignacionrutas"]; // Debe coincidir con appsettings.json
+            var url = _configuration["grcp:rutas"]; // Debe coincidir con appsettings.json
 
             if (string.IsNullOrWhiteSpace(url))
                 throw new Exception("No se encontró la configuración 'grpc:rutas' en appsettings.json");

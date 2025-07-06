@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MicroservicioChoferes.Entities;
+using System.ComponentModel.DataAnnotations;
 namespace MicroservicioRutas.Entities
 {
     public class Ruta
