@@ -1,0 +1,74 @@
+
+version: '3.8'
+
+services:
+
+  api-gateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    container_name: apigateway
+    ports:
+      - "5001:8080"
+      - "5000:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Grpc__autenticacion=http://10.0.0.4:8080
+      - Grpc__vehiculos-livianos=http://10.0.0.5:8080
+      - Grpc__vehiculos-pesados=http://10.0.0.6:8080
+      - Grpc__choferes=http://10.0.0.4:8080
+      - Grpc__rutas=http://10.0.0.4:8080
+      - Grpc__asignacionrutasLiviana=http://10.0.0.5:8080
+      - Grpc__asignacionrutasPesada=http://10.0.0.6:8080
+      - Grpc__consumocombustiblePesado=http://10.0.0.6:8080
+      - Grpc__consumocombustibleLiviano=http://10.0.0.5:8080
+    networks:
+      - red-ms
+
+  microservicio-autenticacion:
+    build:
+      context: ./MicroservicioAutenticacion
+      dockerfile: Dockerfile
+    container_name: microservicio-autenticacion
+    ports:
+      - "5050:8080"
+      - "5051:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.4;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+  microservicio-choferes:
+    build:
+      context: ./MicroservicioChoferes
+      dockerfile: Dockerfile
+    container_name: microservicio-choferes
+    ports:
+      - "5002:8080"
+      - "5003:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - GrpcServicios__Usuarios=http://microservicio-autenticacion:8080
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.4;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+  microservicio-rutas:
+    build:
+      context: ./MicroservicioRutas
+      dockerfile: Dockerfile
+    container_name: microservicio-rutas
+    ports:
+      - "5010:8080"
+      - "5011:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.4;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+
+networks:
+  red-ms:
+    external: true

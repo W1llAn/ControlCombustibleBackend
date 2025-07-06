@@ -1,0 +1,51 @@
+
+version: '3.8'
+
+services:
+
+  microservicio-vehiculos-pesados:
+    build:
+      context: ./MicroservicioVehiculos
+      dockerfile: Dockerfile
+    container_name: microservicio-vehiculos-pesados
+    ports:
+      - "5018:8080"
+      - "5019:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.6;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+  microservicio-asignacion-rutas-pesados:
+    build:
+      context: ./MicroservicioAsignacionRutas
+      dockerfile: Dockerfile
+    container_name: microservicio-asignacion-rutas-pesados
+    ports:
+      - "5020:8080"
+      - "5021:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.6;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+  microservicio-consumo-combustible-pesados:
+    build:
+      context: ./MicroservicioConsumoCombustible
+      dockerfile: Dockerfile
+    container_name: microservicio-consumo-combustible-pesados
+    ports:
+      - "5008:8080"
+      - "5009:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.6;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+    networks:
+      - red-ms
+
+
+networks:
+  red-ms:
+    external: true
