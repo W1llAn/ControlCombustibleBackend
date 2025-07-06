@@ -32,6 +32,7 @@ namespace MicroservicioRutas.Controllers
 
             var asignacionConRelaciones = await _context.AsignacionRutas
             .Include(a => a.Chofer)
+            .ThenInclude(c => c.Usuario)
             .Include(a => a.Vehiculo)
             .Include(a => a.Ruta)
             .FirstOrDefaultAsync(a => a.id == asignacion.id);
@@ -55,6 +56,7 @@ namespace MicroservicioRutas.Controllers
 
             var asignacionConRelaciones = await _context.AsignacionRutas
             .Include(a => a.Chofer)
+                .ThenInclude(c => c.Usuario)
             .Include(a => a.Vehiculo)
             .Include(a => a.Ruta)
             .FirstOrDefaultAsync(a => a.id == asignacion.id);
@@ -77,21 +79,37 @@ namespace MicroservicioRutas.Controllers
 
         public override async Task<AsignacionRuta> ObtenerAsignacionRutaId(ObtenerRutaAsignadaRequest request, ServerCallContext context)
         {
-            var asignacion = await _context.AsignacionRutas
-                .Include(a => a.Chofer)
-                .Include(a => a.Vehiculo)
-                .Include(a => a.Ruta)
-                .FirstOrDefaultAsync(a => a.id == request.Id);
-            if (asignacion == null)
-                throw new RpcException(new Status(StatusCode.NotFound, "Asignación no encontrada"));
+            try
+            {
+                var asignacion = await _context.AsignacionRutas
+                    .Include(a => a.Chofer)
+                        .ThenInclude(c => c.Usuario)
+                    .Include(a => a.Vehiculo)
+                    .Include(a => a.Ruta)
+                    .FirstOrDefaultAsync(a => a.id == request.Id);
 
-            return MapToAsignacionRutaProto(asignacion);
+                if (asignacion == null)
+                {
+                    Console.WriteLine($"❌ Asignación con ID={request.Id} no encontrada.");
+                    throw new RpcException(new Status(StatusCode.NotFound, "Asignación no encontrada"));
+                }
+
+                Console.WriteLine($"✅ Asignación encontrada: ID={asignacion.id}");
+                return MapToAsignacionRutaProto(asignacion);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ ERROR en ObtenerAsignacionRutaId: {ex}");
+                throw new RpcException(new Status(StatusCode.Unknown, "Error interno al procesar la solicitud"));
+            }
         }
+
 
         public override async Task<ListaRutasAsignadas> ObtenerTodasRutasAsignadas(RespuestaVaciaAsignadaRuta request, ServerCallContext context)
         {
             var asignaciones = await _context.AsignacionRutas
                 .Include(a => a.Chofer)
+                .ThenInclude(c=> c.Usuario)
                 .Include(a => a.Vehiculo)
                 .Include(a => a.Ruta)
                 .ToListAsync();
@@ -101,41 +119,64 @@ namespace MicroservicioRutas.Controllers
             return respuesta;
         }
 
-        private AsignacionRuta MapToAsignacionRutaProto(Entities.AsignacionRuta a) => new AsignacionRuta
+        private AsignacionRuta MapToAsignacionRutaProto(Entities.AsignacionRuta a)
         {
-            Id = a.id,
-            FechaAsignacion = a.fechaAsignacion.ToString("yyyy-MM-dd"),
-            Estado = (Protos.Estado)a.estado,
-            Chofer = new Chofer
+            try
             {
-                Id = a.Chofer.id,
-                Nombre = a.Chofer.nombre,
-                Identificacion = a.Chofer.identificacion,
-                Disponible = a.Chofer.disponible,
-                FechaNacimiento = a.Chofer.fecha_nacimiento.ToString("yyyy-MM-dd")
-            },
-            Vehiculo = new Vehiculo
-            {
-                Id = a.Vehiculo.id,
-                Placa = a.Vehiculo.placa,
-                TipoMaquinaria = a.Vehiculo.tipoMaquinaria,
-                EstadoOperativo = a.Vehiculo.estadoOperativo,
-                CapacidadCombustible = (double)a.Vehiculo.capacidadCombustible,
-                FechaRegistro = a.Vehiculo.fechaRegistro.ToString("yyyy-MM-dd"),
-                ConsumoCombustibleKm = (double)a.Vehiculo.consumoCombustibleKm,
-                Estado = a.Vehiculo.estado,
-                Descripcion = a.Vehiculo.descripcion,
-                Nombre = a.Vehiculo.nombre
-            },
-            Ruta = new Ruta
-            {
-                Id = a.Ruta.id,
-                Nombre = a.Ruta.nombre,
-                PuntoInicio = a.Ruta.puntoInicio,
-                PuntoFin = a.Ruta.puntoFin,
-                Distancia = (double)a.Ruta.distancia,
-                Estado = (Protos.Estado)a.Ruta.estado
+                if (a.Chofer == null) Console.WriteLine("⚠️ Chofer es null");
+                if (a.Vehiculo == null) Console.WriteLine("⚠️ Vehiculo es null");
+                if (a.Ruta == null) Console.WriteLine("⚠️ Ruta es null");
+
+                return new AsignacionRuta
+                {
+                    Id = a.id,
+                    FechaAsignacion = a.fechaAsignacion.ToString("yyyy-MM-dd"),
+                    Estado = (Protos.Estado)a.estado,
+                    Chofer = a.Chofer == null ? null : new Chofer
+                    {
+                        Id = a.Chofer.id,
+                        Nombre = a.Chofer.nombre,
+                        Identificacion = a.Chofer.identificacion,
+                        Disponible = a.Chofer.disponible,
+                        FechaNacimiento = a.Chofer.fecha_nacimiento.ToString("yyyy-MM-dd"),
+                        IdUsuario = a.Chofer.usuarioid,
+                        Usuario = a.Chofer.Usuario == null ? null : new Usuario
+                        {
+                            Id = a.Chofer.Usuario.id,
+                            Email = a.Chofer.Usuario.email ?? string.Empty,
+                            NombreUsuario = a.Chofer.Usuario.Nombre_usuario ?? string.Empty
+                        }
+                    },
+                    Vehiculo = a.Vehiculo == null ? null : new Vehiculo
+                    {
+                        Id = a.Vehiculo.id,
+                        Placa = a.Vehiculo.placa,
+                        TipoMaquinaria = a.Vehiculo.tipoMaquinaria,
+                        EstadoOperativo = a.Vehiculo.estadoOperativo,
+                        CapacidadCombustible = (double)a.Vehiculo.capacidadCombustible,
+                        FechaRegistro = a.Vehiculo.fechaRegistro.ToString("yyyy-MM-dd"),
+                        ConsumoCombustibleKm = (double)a.Vehiculo.consumoCombustibleKm,
+                        Estado = a.Vehiculo.estado,
+                        Descripcion = a.Vehiculo.descripcion,
+                        Nombre = a.Vehiculo.nombre
+                    },
+                    Ruta = a.Ruta == null ? null : new Ruta
+                    {
+                        Id = a.Ruta.id,
+                        Nombre = a.Ruta.nombre,
+                        PuntoInicio = a.Ruta.puntoInicio,
+                        PuntoFin = a.Ruta.puntoFin,
+                        Distancia = (double)a.Ruta.distancia,
+                        Estado = (Protos.Estado)a.Ruta.estado
+                    }
+                };
             }
-        };
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ ERROR en MapToAsignacionRutaProto: {ex}");
+                throw;
+            }
+        }
+
     }
 }

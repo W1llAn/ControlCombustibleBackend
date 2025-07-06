@@ -2,6 +2,8 @@
 using MicroservicioRutas.Entities;
 using MicroservicioRutas.Models;
 using Microsoft.EntityFrameworkCore;
+using MicroservicioAutenticacion.Entities;
+
 
 namespace MicroservicioRutas.Data
 {
@@ -12,6 +14,7 @@ namespace MicroservicioRutas.Data
 
         public DbSet<Ruta> Rutas { get; set; }
         public DbSet<AsignacionRuta> AsignacionRutas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +30,8 @@ namespace MicroservicioRutas.Data
                 .ToTable("Choferes", t => t.ExcludeFromMigrations());
             modelBuilder.Entity<Vehiculo>()
                 .ToTable("Vehiculos", t => t.ExcludeFromMigrations());
+            modelBuilder.Entity<Usuario>()
+                .ToTable("Usuarios", t => t.ExcludeFromMigrations());
 
             // Relaciones explícitas
             modelBuilder.Entity<AsignacionRuta>()
@@ -43,6 +48,10 @@ namespace MicroservicioRutas.Data
                 .HasOne(a => a.Ruta)
                 .WithMany()
                 .HasForeignKey(a => a.RutaId);
+            modelBuilder.Entity<Chofer>()
+                .HasOne(c => c.Usuario)
+                .WithMany()
+                .HasForeignKey(c => c.usuarioid);
         }
     }
 }

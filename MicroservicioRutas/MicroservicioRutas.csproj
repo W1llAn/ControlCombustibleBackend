@@ -33,13 +33,12 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
 	<ItemGroup>
 		<Protobuf Include="Protos\AsignacionRutas.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\Rutas.proto" GrpcServices="Server" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 
