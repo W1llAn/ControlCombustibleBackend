@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using  MicroservicioAutenticacion.Entities;
 
 namespace MicroservicioChoferes.Entities
 {
@@ -12,6 +13,8 @@ namespace MicroservicioChoferes.Entities
         public bool disponible { get; set; }
         public DateTime fecha_nacimiento { get; set; }
 
+        public int usuarioid { get; set; }
+        public Usuario  Usuario { get; set; }
 
     }
 }

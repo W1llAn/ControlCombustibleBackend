@@ -22,6 +22,30 @@ namespace MicroservicioRutas.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("MicroservicioAutenticacion.Entities.Usuario", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Nombre_usuario")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Usuarios", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
+
             modelBuilder.Entity("MicroservicioChoferes.Entities.Chofer", b =>
                 {
                     b.Property<int>("id")
@@ -44,7 +68,12 @@ namespace MicroservicioRutas.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("usuarioid")
+                        .HasColumnType("integer");
+
                     b.HasKey("id");
+
+                    b.HasIndex("usuarioid");
 
                     b.ToTable("Choferes", null, t =>
                         {
@@ -168,6 +197,17 @@ namespace MicroservicioRutas.Migrations
                         {
                             t.ExcludeFromMigrations();
                         });
+                });
+
+            modelBuilder.Entity("MicroservicioChoferes.Entities.Chofer", b =>
+                {
+                    b.HasOne("MicroservicioAutenticacion.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("usuarioid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("MicroservicioRutas.Entities.AsignacionRuta", b =>

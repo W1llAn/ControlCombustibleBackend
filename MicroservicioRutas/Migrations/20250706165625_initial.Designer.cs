@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MicroservicioRutas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250705213738_initial")]
+    [Migration("20250706165625_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -24,6 +24,30 @@ namespace MicroservicioRutas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("MicroservicioAutenticacion.Entities.Usuario", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("Nombre_usuario")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Usuarios", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
 
             modelBuilder.Entity("MicroservicioChoferes.Entities.Chofer", b =>
                 {
@@ -47,7 +71,12 @@ namespace MicroservicioRutas.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("usuarioid")
+                        .HasColumnType("integer");
+
                     b.HasKey("id");
+
+                    b.HasIndex("usuarioid");
 
                     b.ToTable("Choferes", null, t =>
                         {
@@ -171,6 +200,17 @@ namespace MicroservicioRutas.Migrations
                         {
                             t.ExcludeFromMigrations();
                         });
+                });
+
+            modelBuilder.Entity("MicroservicioChoferes.Entities.Chofer", b =>
+                {
+                    b.HasOne("MicroservicioAutenticacion.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("usuarioid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("MicroservicioRutas.Entities.AsignacionRuta", b =>

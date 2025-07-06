@@ -11,6 +11,7 @@ message AsignacionRuta{
   Chofer chofer = 7;
   Vehiculo vehiculo = 8;
   Ruta ruta = 9;
+    Usuario usuario=10;
 }
 
 enum Estado {
@@ -23,8 +24,14 @@ message Chofer {
   string identificacion = 3;
   bool disponible = 4;
   string fechaNacimiento = 5;
+  int32 id_usuario=6;
+  Usuario usuario = 7;
 }
-
+message Usuario {
+  int32 id = 1;
+  string email = 2;
+  string nombre_usuario = 3;
+}
 message Vehiculo {
   int32 id = 1;
   string placa = 2;
