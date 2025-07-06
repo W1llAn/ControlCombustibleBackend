@@ -81,7 +81,8 @@ namespace MicroservicioChoferes.Controllers
 
                 chofer.nombre = request.Nombre;
                 chofer.identificacion = request.Identificacion;
-                chofer.disponible = true;
+                chofer.disponible = request.Disponible;
+                chofer.estado = (Entities.Estado)request.Estado;
                 chofer.tipo_maquinaria = (Entities.TipoMaquinaria)request.TipoMaquinaria;
                 chofer.fecha_nacimiento = DateTime.SpecifyKind(DateTime.Parse(request.FechaNacimiento), DateTimeKind.Utc);
                 chofer.usuario = usuario;

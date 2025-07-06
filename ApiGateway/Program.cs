@@ -1,17 +1,29 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080, o => o.Protocols = HttpProtocols.Http2);
+
+    options.ListenAnyIP(8081, o =>
+    {
+        o.UseHttps("certs/aspnetapp.pfx", "1234"); // Ruta del certificado y contraseña
+        o.Protocols = HttpProtocols.Http2;
+    });
+});
+
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowFrontend",
         policy => {
-            policy.WithOrigins("http://localhost:5173") // Origen de tu frontend
+            policy.AllowAnyOrigin() // Origen de tu frontend
                   .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
+                  .AllowAnyMethod();
         });
 });
 
