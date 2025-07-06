@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MicroservicioVehiculos.Protos;
 using Google.Protobuf.WellKnownTypes;
 using GrpcStatusCode = Grpc.Core.StatusCode;
+using MicroservicioChoferes.Protos;
 
 namespace MicroservicioPuente.Controllers
 {
@@ -19,31 +20,43 @@ namespace MicroservicioPuente.Controllers
             _configuration = configuration;
         }
 
-        private VehiculoService.VehiculoServiceClient CrearClienteGrpc(out Metadata metadata)
+        private async Task<VehiculoService.VehiculoServiceClient> CrearClienteGrpc(string tipoMaquinaria)
         {
-            var url = _configuration["grcp:vehiculos-livianos"];
+
+            var url = tipoMaquinaria switch
+            {
+                "Pesada" => _configuration["grcp:vehiculos-pesados"],
+                "Liviana" => _configuration["grcp:vehiculos-livianos"],
+                _ => throw new Exception("Tipo de maquinaria no reconocido.")
+            };
+
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             var channel = GrpcChannel.ForAddress(url);
-            var client = new VehiculoService.VehiculoServiceClient(channel);
-
-            metadata = new Metadata();
-            var authHeader = Request.Headers["Authorization"].ToString();
-            if (!string.IsNullOrWhiteSpace(authHeader) && authHeader.StartsWith("Bearer "))
-            {
-                var token = authHeader.Substring("Bearer ".Length);
-                metadata.Add("Authorization", $"Bearer {token}");
-            }
-
-            return client;
+            return new VehiculoService.VehiculoServiceClient(channel);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerVehiculo(int id)
+
+        [HttpGet("Liviana/{id}")]
+        public async Task<IActionResult> ObtenerVehiculoLiviana(int id)
         {
-            var cliente = CrearClienteGrpc(out var metadata);
+            var cliente = await CrearClienteGrpc("Liviana");
             try
             {
-                var respuesta = await cliente.GetVehiculoAsync(new GetVehiculoRequest { Id = id }, headers: metadata);
+                var respuesta = await cliente.GetVehiculoAsync(new GetVehiculoRequest { Id = id }, headers: CrearMetadataDesdeToken());
+                return Ok(respuesta.Vehiculo);
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
+        }
+        [HttpGet("Pesada/{id}")]
+        public async Task<IActionResult> ObtenerVehiculoPesada(int id)
+        {
+            var cliente = await CrearClienteGrpc("Pesada");
+            try
+            {
+                var respuesta = await cliente.GetVehiculoAsync(new GetVehiculoRequest { Id = id }, headers: CrearMetadataDesdeToken());
                 return Ok(respuesta.Vehiculo);
             }
             catch (RpcException ex)
@@ -55,10 +68,13 @@ namespace MicroservicioPuente.Controllers
         [HttpGet("listar")]
         public async Task<IActionResult> ListarVehiculos()
         {
-            var cliente = CrearClienteGrpc(out var metadata);
+            var cliente = await CrearClienteGrpc("Liviana");
+            var cliente1 = await CrearClienteGrpc("Pesada");
             try
             {
-                var respuesta = await cliente.GetAllVehiculosAsync(new MicroservicioVehiculos.Protos.Empty(), headers: metadata);
+                var respuesta = await cliente.GetAllVehiculosAsync(new MicroservicioVehiculos.Protos.Empty(), headers: CrearMetadataDesdeToken());
+                var respuesta1 = await cliente1.GetAllVehiculosAsync(new MicroservicioVehiculos.Protos.Empty(), headers: CrearMetadataDesdeToken());
+                respuesta.Vehiculos.Add(respuesta1.Vehiculos);
                 return Ok(respuesta.Vehiculos);
             }
             catch (RpcException ex)
@@ -70,11 +86,11 @@ namespace MicroservicioPuente.Controllers
         [HttpPost("crear")]
         public async Task<IActionResult> CrearVehiculo([FromBody] VehiculoModel vehiculo)
         {
-            var cliente = CrearClienteGrpc(out var metadata);
+            var cliente = await CrearClienteGrpc(vehiculo.TipoMaquinaria);
             try
             {
                 var request = new CreateVehiculoRequest { Vehiculo = vehiculo };
-                var respuesta = await cliente.CreateVehiculoAsync(request, headers: metadata);
+                var respuesta = await cliente.CreateVehiculoAsync(request, headers: CrearMetadataDesdeToken());
                 return Ok(respuesta.Vehiculo);
             }
             catch (RpcException ex)
@@ -86,11 +102,11 @@ namespace MicroservicioPuente.Controllers
         [HttpPut("actualizar")]
         public async Task<IActionResult> ActualizarVehiculo([FromBody] VehiculoModel vehiculo)
         {
-            var cliente = CrearClienteGrpc(out var metadata);
+            var cliente = await CrearClienteGrpc(vehiculo.TipoMaquinaria);
             try
             {
                 var request = new UpdateVehiculoRequest { Vehiculo = vehiculo };
-                var respuesta = await cliente.UpdateVehiculoAsync(request, headers: metadata);
+                var respuesta = await cliente.UpdateVehiculoAsync(request, headers: CrearMetadataDesdeToken());
                 return Ok(respuesta.Vehiculo);
             }
             catch (RpcException ex)
@@ -99,14 +115,30 @@ namespace MicroservicioPuente.Controllers
             }
         }
 
-        [HttpDelete("eliminar/{id}")]
-        public async Task<IActionResult> EliminarVehiculo(int id)
+        [HttpDelete("eliminar/Pesada/{id}")]
+        public async Task<IActionResult> EliminarVehiculoPesada(int id)
         {
-            var cliente = CrearClienteGrpc(out var metadata);
+            var cliente =await CrearClienteGrpc("Pesada");
             try
             {
                 var request = new DeleteVehiculoRequest { Id = id };
-                var respuesta = await cliente.DeleteVehiculoAsync(request, headers: metadata);
+                var respuesta = await cliente.DeleteVehiculoAsync(request, headers: CrearMetadataDesdeToken());
+                return Ok(new { Eliminado = respuesta.Success });
+            }
+            catch (RpcException ex)
+            {
+                return HandleRpcException(ex);
+            }
+        }
+
+        [HttpDelete("eliminar/Liviana/{id}")]
+        public async Task<IActionResult> EliminarVehiculoLiviana(int id)
+        {
+            var cliente = await CrearClienteGrpc("Liviana");
+            try
+            {
+                var request = new DeleteVehiculoRequest { Id = id };
+                var respuesta = await cliente.DeleteVehiculoAsync(request, headers: CrearMetadataDesdeToken());
                 return Ok(new { Eliminado = respuesta.Success });
             }
             catch (RpcException ex)
@@ -127,5 +159,19 @@ namespace MicroservicioPuente.Controllers
                 _ => StatusCode(500, new { error = $"Error interno: {ex.Status.Detail}" })
             };
         }
+
+        private Metadata CrearMetadataDesdeToken()
+        {
+            var metadata = new Metadata();
+            var authHeader = Request.Headers["Authorization"].ToString();
+            if (!string.IsNullOrWhiteSpace(authHeader) && authHeader.StartsWith("Bearer "))
+            {
+                var token = authHeader.Substring("Bearer ".Length);
+                metadata.Add("Authorization", $"Bearer {token}");
+            }
+            return metadata;
+        }
+
+
     }
 }

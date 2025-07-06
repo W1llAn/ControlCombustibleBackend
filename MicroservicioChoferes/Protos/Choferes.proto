@@ -44,7 +44,6 @@ message CrearChoferRequest {
   int32 rol_id = 10;
 }
 
-
 message ActualizarChoferRequest {
   int32 id = 1;
   string nombre = 2;
@@ -73,12 +72,15 @@ message RespuestaVaciaChofer {}
 message ObtenerChoferRequest {
   int32 id = 1;
 }
-
+message ObtenerChoferUsuarioIdRequest {
+  int32 idUsuario = 1;
+}
 service ChoferesService {
   rpc CrearChofer(CrearChoferRequest) returns (Chofer);
   rpc ActualizarChofer(ActualizarChoferRequest) returns (Chofer);
   rpc EliminarChofer(EliminarChoferRequest) returns (EliminarChoferResponse);
   rpc ObtenerChofer(ObtenerChoferRequest) returns (Chofer);
+  rpc ObtenerChoferUsuarioId(ObtenerChoferUsuarioIdRequest) returns (Chofer);
   rpc ObtenerTodosChoferes(RespuestaVaciaChofer) returns (ListaChoferes);
 }
 

@@ -134,6 +134,23 @@ namespace MicroservicioChoferes.Controllers
             }
         }
 
+        public override async Task<Chofer> ObtenerChoferUsuarioId(ObtenerChoferUsuarioIdRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var chofer = await _context.Choferes.Include(c => c.usuario).FirstOrDefaultAsync(c => c.usuario.id == request.IdUsuario);
+                if (chofer == null)
+                    throw new RpcException(new Status(StatusCode.NotFound, "Chofer no encontrado"));
+
+                return MapToChoferProto(chofer);
+            }
+            catch (RpcException) { throw; }
+            catch (Exception ex)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, $"Error al obtener chofer: {ex.Message}"));
+            }
+        }
+
         public override async Task<ListaChoferes> ObtenerTodosChoferes(RespuestaVaciaChofer request, ServerCallContext context)
         {
             try

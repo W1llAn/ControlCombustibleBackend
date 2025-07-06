@@ -53,6 +53,22 @@ services:
     restart: unless-stopped
     networks:
       - red-ms
+  microservicio-vehiculos-pesados:
+    build:
+      context: ./MicroservicioVehiculos
+      dockerfile: Dockerfile
+    container_name: microservicio-vehiculos-pesados
+    ports:
+      - "5018:8080"
+      - "5019:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+    depends_on:
+      - microservicio-autenticacion
+    restart: unless-stopped
+    networks:
+      - red-ms
   microservicio-rutas:
       build:
         context: ./MicroservicioRutas
@@ -70,11 +86,11 @@ services:
       networks:
         - red-ms
 
-  microservicio-asignacion-rutas:
+  microservicio-asignacion-rutas-livianos:
     build:
       context: ./MicroservicioAsignacionRutas
       dockerfile: Dockerfile
-    container_name: microservicio-asignacion-rutas
+    container_name: microservicio-asignacion-rutas-livianos
     ports:
       - "5006:8080"
       - "5007:8081"
@@ -86,12 +102,48 @@ services:
     restart: unless-stopped
     networks:
       - red-ms
+  microservicio-asignacion-rutas-pesados:
+    build:
+      context: ./MicroservicioAsignacionRutas
+      dockerfile: Dockerfile
+    container_name: microservicio-asignacion-rutas-pesados
+    ports:
+      - "5020:8080"
+      - "5021:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+    depends_on:
+      - microservicio-rutas
+    restart: unless-stopped
+    networks:
+      - red-ms
+  
       #MicroservicioConsumoCombustible
-  microservicio-consumo-combustible:
+
+  microservicio-consumo-combustible-livianos:
     build:
       context: ./MicroservicioConsumoCombustible
       dockerfile: Dockerfile
-    container_name: microservicio-consumo-combustible
+    container_name: microservicio-consumo-combustible-livianos
+    ports:
+      - "5028:8080"
+      - "5029:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
+    depends_on:
+      - microservicio-asignacion-rutas-livianos
+    restart: unless-stopped
+    networks:
+      - red-ms
+
+  microservicio-consumo-combustible-pesados:
+
+    build:
+      context: ./MicroservicioConsumoCombustible
+      dockerfile: Dockerfile
+    container_name: microservicio-consumo-combustible-pesados
     ports:
       - "5008:8080"
       - "5009:8081"
@@ -99,7 +151,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=UsuariosDB;Username=usuario;Password=contraseña123
     depends_on:
-      - microservicio-asignacion-rutas
+      - microservicio-asignacion-rutas-pesados
     restart: unless-stopped
     networks:
       - red-ms
