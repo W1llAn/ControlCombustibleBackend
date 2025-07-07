@@ -14,14 +14,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Grpc__autenticacion=http://microservicio-autenticacion:8080
-      - Grpc__vehiculos-livianos=http://172.191.76.83:5004
-      - Grpc__vehiculos-pesados=http://20.169.243.51:5018
+      - Grpc__vehiculos-livianos=172.191.76.83:5004
+      - Grpc__vehiculos-pesados=20.169.243.51:5018
       - Grpc__choferes=http://microservicio-choferes:8080
       - Grpc__rutas=http://microservicio-rutas:8080
-      - Grpc__asignacionrutasLiviana=http://172.191.76.83:5006
-      - Grpc__asignacionrutasPesada=http://20.169.243.51:5020
-      - Grpc__consumocombustiblePesado=http://20.169.243.51:5008
-      - Grpc__consumocombustibleLiviano=http://172.191.76.83:5028
+      - Grpc__asignacionrutasLiviana=172.191.76.83:5006
+      - Grpc__asignacionrutasPesada=20.169.243.51:5020
+      - Grpc__consumocombustiblePesado=20.169.243.51:5008
+      - Grpc__consumocombustibleLiviano=172.191.76.83:5028
     networks:
       - red-ms
 
