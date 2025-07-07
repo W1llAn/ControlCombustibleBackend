@@ -63,7 +63,7 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> ObtenerConsumoPesado(int id)
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var clientPesado = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
                 var responsePesado = await clientPesado.ObtenerConsumoCombustibleIdAsync(new ObtenerConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
@@ -75,7 +75,7 @@ namespace ApiGateway.Controllers
         public async Task<IActionResult> ObtenerConsumoLiviano(int id)
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var clientLiviano = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
                 var responseLiviano = await clientLiviano.ObtenerConsumoCombustibleIdAsync(new ObtenerConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
@@ -97,7 +97,7 @@ namespace ApiGateway.Controllers
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
             Console.WriteLine("Rol: " + claim);
-            if (claim != null && claim.Equals("Administrador") )           
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var clientLiviano = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
                 var responseLiviano = await clientLiviano.ObtenerTodosConsumosCombustibleAsync(new RespuestaVaciaConsumoCombustible(), headers: CrearMetadataDesdeToken());
@@ -125,7 +125,7 @@ namespace ApiGateway.Controllers
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
             Console.WriteLine("Rol: " + claim);
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null &&( claim.Equals("Administrador")|| claim.Equals("Supervisor")))
             {
                 var client =await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
                 var response = await client.ActualizarConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
@@ -139,7 +139,7 @@ namespace ApiGateway.Controllers
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
             Console.WriteLine("Rol: " + claim);
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
                 var response = await client.ActualizarConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
@@ -153,7 +153,7 @@ namespace ApiGateway.Controllers
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
             Console.WriteLine("Rol: " + claim);
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
                 var response = await client.EliminarConsumoCombustibleAsync(new EliminarConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
@@ -166,7 +166,7 @@ namespace ApiGateway.Controllers
         {
             var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
             Console.WriteLine("Rol: " + claim);
-            if (claim != null && claim.Equals("Administrador"))
+            if (claim != null && (claim.Equals("Administrador") || claim.Equals("Supervisor")))
             {
                 var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
                 var response = await client.EliminarConsumoCombustibleAsync(new EliminarConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
