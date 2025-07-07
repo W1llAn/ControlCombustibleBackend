@@ -18,6 +18,10 @@ enum Estado {
   ELIMINADO = 0;
   ACTIVO = 1;
 }
+enum TipoMaquinaria {
+  Liviano = 0;
+  Pesado = 1;
+}
 message Chofer {
   int32 id = 1;
   string nombre = 2;
@@ -26,6 +30,7 @@ message Chofer {
   string fechaNacimiento = 5;
   int32 id_usuario=6;
   Usuario usuario = 7;
+  TipoMaquinaria tipo_maquinaria=8;
 }
 message Usuario {
   int32 id = 1;

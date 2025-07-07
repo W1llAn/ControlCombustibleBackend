@@ -11,7 +11,7 @@ namespace MicroservicioChoferes.Entities
         public string identificacion { get; set; }
         public bool disponible { get; set; }
         public DateTime fecha_nacimiento { get; set; }
-
+        public TipoMaquinaria tipo_maquinaria { get; set; }
 
     }
 }

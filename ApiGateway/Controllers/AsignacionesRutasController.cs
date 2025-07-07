@@ -40,8 +40,8 @@ namespace ApiGateway.Controllers
             var tipo = await ObtenerTipoMaquinariaDesdeGrpc(id);
             var url = tipo switch
             {
-                TipoMaquinaria.Pesado => _configuration["grcp:asignacionrutasPesada"],
-                TipoMaquinaria.Liviano => _configuration["grcp:asignacionrutasLiviana"],
+                MicroservicioChoferes.Protos.TipoMaquinaria.Pesado => _configuration["grcp:asignacionrutasPesada"],
+                MicroservicioChoferes.Protos.TipoMaquinaria.Liviano => _configuration["grcp:asignacionrutasLiviana"],
                 _ => throw new Exception("Tipo de maquinaria no reconocido.")
             };
 
@@ -86,10 +86,19 @@ namespace ApiGateway.Controllers
         }
 
         [HttpPut("actualizar")]
-        public async Task<IActionResult> ActualizarAsignacion([FromBody] ActualizarAsignacionRutaRequest request)
+        public async Task<IActionResult> ActualizarAsignacion([FromBody] ActualizarAsignacionRutaRequestApigateway request)
         {
-            var cliente =await CrearClienteGrpcAsync(request.ChoferId);
-            var respuesta = await cliente.ActualizarRutaAsignadaAsync(request, headers: CrearMetadataDesdeToken());
+            var cliente =await CrearClienteGrpcAsync(request.ChoferIdAnterior);
+            await cliente.EliminarAsignacionRutaAsync(new EliminarAsignacionRutaRequest { Id= request.Id }, headers: CrearMetadataDesdeToken());
+            cliente= await CrearClienteGrpcAsync(request.ChoferId);
+            var respuesta = await cliente.CrearAsignacionRutaAsync(new CrearAsignacionRutaRequest { 
+            ChoferId=request.ChoferId,
+            Estado=request.Estado,
+            FechaAsignacion=request.FechaAsignacion,
+            RutaId=request.RutaId,
+            VehiculoId = request.VehiculoId 
+            },    
+            headers: CrearMetadataDesdeToken());
             return Ok(respuesta);
         }
 
@@ -108,7 +117,7 @@ namespace ApiGateway.Controllers
             var respuesta = await cliente.EliminarAsignacionRutaAsync(new EliminarAsignacionRutaRequest { Id = id }, headers: CrearMetadataDesdeToken());
             return Ok(new { Exito = respuesta.Exito });
         }
-        private async Task<TipoMaquinaria> ObtenerTipoMaquinariaDesdeGrpc(int id)
+        private async Task<MicroservicioChoferes.Protos.TipoMaquinaria> ObtenerTipoMaquinariaDesdeGrpc(int id)
         {
             var urlChoferes = _configuration["grcp:choferes"]; // ej: "http://localhost:5005"
 

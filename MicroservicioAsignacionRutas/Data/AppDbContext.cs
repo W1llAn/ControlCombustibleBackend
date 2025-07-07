@@ -54,6 +54,9 @@ namespace MicroservicioRutas.Data
                 .HasOne(c => c.Usuario)
                 .WithMany()
                 .HasForeignKey(c => c.usuarioid);
+            modelBuilder.Entity<Chofer>()
+                .Property(c => c.tipo_maquinaria)
+                .HasConversion<int>();
         }
     }
 }

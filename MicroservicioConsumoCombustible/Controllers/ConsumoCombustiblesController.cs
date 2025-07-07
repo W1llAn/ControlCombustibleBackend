@@ -179,7 +179,8 @@ namespace MicroservicioConsumoCombustible.Controllers
                     Nombre = c.asignacionRuta.Chofer.nombre,
                     Identificacion = c.asignacionRuta.Chofer.identificacion,
                     Disponible = c.asignacionRuta.Chofer.disponible,
-                    FechaNacimiento = c.asignacionRuta.Chofer.fecha_nacimiento.ToString("yyyy-MM-dd")
+                    FechaNacimiento = c.asignacionRuta.Chofer.fecha_nacimiento.ToString("yyyy-MM-dd"),
+                    TipoMaquinaria=(Protos.TipoMaquinaria)c.asignacionRuta.Chofer.tipo_maquinaria
                 },
                 Vehiculo = new Protos.Vehiculo
                 {

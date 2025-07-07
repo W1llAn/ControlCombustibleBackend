@@ -127,6 +127,8 @@ namespace MicroservicioRutas.Controllers
                 if (a.Vehiculo == null) Console.WriteLine("⚠️ Vehiculo es null");
                 if (a.Ruta == null) Console.WriteLine("⚠️ Ruta es null");
 
+                Console.WriteLine("Tipo Maqiunaria Chofer: "+a.Chofer.tipo_maquinaria);
+
                 return new AsignacionRuta
                 {
                     Id = a.id,
@@ -139,6 +141,7 @@ namespace MicroservicioRutas.Controllers
                         Identificacion = a.Chofer.identificacion,
                         Disponible = a.Chofer.disponible,
                         FechaNacimiento = a.Chofer.fecha_nacimiento.ToString("yyyy-MM-dd"),
+                        TipoMaquinaria=(Protos.TipoMaquinaria)a.Chofer.tipo_maquinaria,
                         IdUsuario = a.Chofer.usuarioid,
                         Usuario = a.Chofer.Usuario == null ? null : new Usuario
                         {

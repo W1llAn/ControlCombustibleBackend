@@ -42,6 +42,20 @@ message UpdateVehiculoRequest {
   VehiculoModel vehiculo = 1;
 }
 
+message UpdateVehiculoRequestApiGateway {
+  int32 id = 1;
+  string placa = 2;
+  string tipoMaquinaria = 3;      // "Liviana" o "Pesada"
+  string estadoOperativo = 4;     // "Operativo", "Mantenimiento"
+  double capacidadCombustible = 5; // usar double para decimal
+  string fechaRegistro = 6;       // ISO 8601 text
+  double consumoCombustibleKm = 7;
+  string estado = 8;              // "Eliminado", "Activo"
+  string descripcion = 9;  
+  string nombre = 10;  
+  string tipoMaquinariaAnterior=11;
+}
+
 message UpdateVehiculoResponse {
   VehiculoModel vehiculo = 1;
 }

@@ -14,7 +14,10 @@ message AsignacionConsumoCombustible{
 
   AsignacionRuta asignacionRuta = 7;
 }
-
+enum TipoMaquinaria {
+  Liviano = 0;
+  Pesado = 1;
+}
 enum Estado {
   ELIMINADO = 0;
   ACTIVO = 1;
@@ -35,6 +38,7 @@ message Chofer {
   string identificacion = 3;
   bool disponible = 4;
   string fechaNacimiento = 5;
+  TipoMaquinaria tipo_maquinaria=6;
 }
 
 message Vehiculo {
@@ -66,6 +70,15 @@ message CrearConsumoCombustibleRequest {
   double combustibleReal=3;
   int32 asignacionRutaId = 4;
   string motivo = 5;
+}
+
+message CrearConsumoCombustibleRequestApigateway {
+  string fechaRegistro = 1;
+  Estado estado=2;
+  double combustibleReal=3;
+  int32 asignacionRutaId = 4;
+  string motivo = 5;
+  TipoMaquinaria tipo_maquinaria=6;
 }
 
 message ActualizarConsumoCombustibleRequest {

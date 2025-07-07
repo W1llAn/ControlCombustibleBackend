@@ -53,6 +53,9 @@ namespace MicroservicioConsumoCombustible.Data
                 .HasOne(a => a.Ruta)
                 .WithMany()
                 .HasForeignKey(a => a.RutaId);
+            modelBuilder.Entity<Chofer>()
+                .Property(c => c.tipo_maquinaria)
+                .HasConversion<int>();
         }
 
     }

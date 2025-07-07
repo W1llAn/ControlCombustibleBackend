@@ -14,7 +14,10 @@ message AsignacionConsumoCombustible{
 
   AsignacionRuta asignacionRuta = 7;
 }
-
+enum TipoMaquinaria {
+  Liviano = 0;
+  Pesado = 1;
+}
 enum Estado {
   ELIMINADO = 0;
   ACTIVO = 1;
@@ -35,6 +38,7 @@ message Chofer {
   string identificacion = 3;
   bool disponible = 4;
   string fechaNacimiento = 5;
+  TipoMaquinaria tipo_maquinaria=6;
 }
 
 message Vehiculo {

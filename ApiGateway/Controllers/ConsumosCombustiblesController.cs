@@ -2,6 +2,7 @@
 using Grpc.Net.Client;
 using MicroservicioChoferes.Protos;
 using MicroservicioConsumoCombustible.Protos;
+using MicroservicioPuente.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiGateway.Controllers
@@ -32,8 +33,8 @@ namespace ApiGateway.Controllers
             // 3. Seleccionar la URL del microservicio según el tipo
             var url = tipo switch
             {
-                TipoMaquinaria.Pesado => _configuration["grcp:consumocombustiblePesado"],
-                TipoMaquinaria.Liviano => _configuration["grcp:consumocombustibleLiviano"],
+                MicroservicioChoferes.Protos.TipoMaquinaria.Pesado => _configuration["grcp:consumocombustiblePesado"],
+                MicroservicioChoferes.Protos.TipoMaquinaria.Liviano => _configuration["grcp:consumocombustibleLiviano"],
                 _ => throw new Exception("Tipo de maquinaria no reconocido.")
             };
 
@@ -41,6 +42,46 @@ namespace ApiGateway.Controllers
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             var channel = GrpcChannel.ForAddress(url);
             return new ConsumoCombustiblesService.ConsumoCombustiblesServiceClient(channel);
+        }
+        private async Task<ConsumoCombustiblesService.ConsumoCombustiblesServiceClient> CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria tipoMaquinaria)
+        {
+
+            var url = tipoMaquinaria switch
+            {
+                MicroservicioChoferes.Protos.TipoMaquinaria.Pesado => _configuration["grcp:consumocombustiblePesado"],
+                MicroservicioChoferes.Protos.TipoMaquinaria.Liviano => _configuration["grcp:consumocombustibleLiviano"],
+                _ => throw new Exception("Tipo de maquinaria no reconocido.")
+            };
+
+            // 4. Crear cliente gRPC
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            var channel = GrpcChannel.ForAddress(url);
+            return new ConsumoCombustiblesService.ConsumoCombustiblesServiceClient(channel);
+        }
+
+        [HttpGet("Pesada/{id}")]
+        public async Task<IActionResult> ObtenerConsumoPesado(int id)
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var clientPesado = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
+                var responsePesado = await clientPesado.ObtenerConsumoCombustibleIdAsync(new ObtenerConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
+                return Ok(responsePesado);
+            }
+            return Unauthorized();
+        }
+        [HttpGet("Liviana/{id}")]
+        public async Task<IActionResult> ObtenerConsumoLiviano(int id)
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var clientLiviano = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
+                var responseLiviano = await clientLiviano.ObtenerConsumoCombustibleIdAsync(new ObtenerConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
+                return Ok(responseLiviano);
+            }
+            return Unauthorized();
         }
 
         [HttpGet("{id}")]
@@ -54,36 +95,96 @@ namespace ApiGateway.Controllers
         [HttpGet("listar")]
         public async Task<IActionResult> ObtenerTodos()
         {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            Console.WriteLine("Rol: " + claim);
+            if (claim != null && claim.Equals("Administrador") )           
+            {
+                var clientLiviano = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
+                var responseLiviano = await clientLiviano.ObtenerTodosConsumosCombustibleAsync(new RespuestaVaciaConsumoCombustible(), headers: CrearMetadataDesdeToken());
+                var clientPesado = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
+                var responsePesado = await clientPesado.ObtenerTodosConsumosCombustibleAsync(new RespuestaVaciaConsumoCombustible(), headers: CrearMetadataDesdeToken());
+                responseLiviano.AsignacionConsumoCombustible.Add(responsePesado.AsignacionConsumoCombustible);
+                return Ok(responseLiviano.AsignacionConsumoCombustible);
+            }
             var client = await CrearClienteGrpc();
             var response = await client.ObtenerTodosConsumosCombustibleAsync(new RespuestaVaciaConsumoCombustible(), headers: CrearMetadataDesdeToken());
             return Ok(response.AsignacionConsumoCombustible);
         }
 
         [HttpPost("crear")]
-        public async Task<IActionResult> CrearConsumo([FromBody] CrearConsumoCombustibleRequest request)
+        public async Task<IActionResult> CrearConsumo([FromBody] CrearConsumoCombustibleRequestApigateway request)
         {
-            var client = await CrearClienteGrpc();
-            var response = await client.CrearConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
+
+            var client = await CrearClienteGrpc((MicroservicioChoferes.Protos.TipoMaquinaria)request.TipoMaquinaria);
+            var response = await client.CrearConsumoCombustibleAsync(
+                new CrearConsumoCombustibleRequest
+                {
+                    AsignacionRutaId=request.AsignacionRutaId,
+                    CombustibleReal=request.CombustibleReal,
+                    Estado=request.Estado,
+                    FechaRegistro=request.FechaRegistro,
+                    Motivo = request.Motivo 
+                }, 
+                headers: CrearMetadataDesdeToken());
             return Ok(response);
         }
 
-        [HttpPut("actualizar")]
+        [HttpPut("actualizar/Pesada")]
         public async Task<IActionResult> ActualizarConsumo([FromBody] ActualizarConsumoCombustibleRequest request)
         {
-            var client =await CrearClienteGrpc();
-            var response = await client.ActualizarConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
-            return Ok(response);
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            Console.WriteLine("Rol: " + claim);
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var client =await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
+                var response = await client.ActualizarConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
+                return Ok(response);
+            }
+            return Unauthorized();
         }
 
-        [HttpDelete("eliminar/{id}")]
-        public async Task<IActionResult> EliminarConsumo(int id)
+        [HttpPut("actualizar/Liviana")]
+        public async Task<IActionResult> ActualizarConsumoLiviana([FromBody] ActualizarConsumoCombustibleRequest request)
         {
-            var client = await CrearClienteGrpc();
-            var response = await client.EliminarConsumoCombustibleAsync(new EliminarConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
-            return Ok(new { Exito = response.Exito });
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            Console.WriteLine("Rol: " + claim);
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
+                var response = await client.ActualizarConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
+                return Ok(response);
+            }
+            return Unauthorized();
         }
 
-        private async Task<TipoMaquinaria> ObtenerTipoMaquinariaDesdeGrpc(int idUsuario)
+        [HttpDelete("eliminar/Liviana/{id}")]
+        public async Task<IActionResult> EliminarConsumoLiviana(int id)
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            Console.WriteLine("Rol: " + claim);
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Liviano);
+                var response = await client.EliminarConsumoCombustibleAsync(new EliminarConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
+                return Ok(new { Exito = response.Exito });
+            }
+            return Unauthorized();
+        }
+        [HttpDelete("eliminar/Pesada/{id}")]
+        public async Task<IActionResult> EliminarConsumoPesada(int id)
+        {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == "Rol").Value;
+            Console.WriteLine("Rol: " + claim);
+            if (claim != null && claim.Equals("Administrador"))
+            {
+                var client = await CrearClienteGrpc(MicroservicioChoferes.Protos.TipoMaquinaria.Pesado);
+                var response = await client.EliminarConsumoCombustibleAsync(new EliminarConsumoCombustibleRequest { Id = id }, headers: CrearMetadataDesdeToken());
+                return Ok(new { Exito = response.Exito });
+            }
+            return Unauthorized();
+        }
+
+        private async Task<MicroservicioChoferes.Protos.TipoMaquinaria> ObtenerTipoMaquinariaDesdeGrpc(int idUsuario)
         {
             var urlChoferes = _configuration["grcp:choferes"];
             var channel = GrpcChannel.ForAddress(urlChoferes);

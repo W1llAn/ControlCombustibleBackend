@@ -100,13 +100,32 @@ namespace MicroservicioPuente.Controllers
         }
 
         [HttpPut("actualizar")]
-        public async Task<IActionResult> ActualizarVehiculo([FromBody] VehiculoModel vehiculo)
+        public async Task<IActionResult> ActualizarVehiculo([FromBody] UpdateVehiculoRequestApiGateway vehiculo)
         {
-            var cliente = await CrearClienteGrpc(vehiculo.TipoMaquinaria);
             try
             {
-                var request = new UpdateVehiculoRequest { Vehiculo = vehiculo };
-                var respuesta = await cliente.UpdateVehiculoAsync(request, headers: CrearMetadataDesdeToken());
+                var clienteAnterior = await CrearClienteGrpc(vehiculo.TipoMaquinariaAnterior);
+                var cliente = await CrearClienteGrpc(vehiculo.TipoMaquinaria);
+
+                await clienteAnterior.DeleteVehiculoAsync(new DeleteVehiculoRequest {Id=vehiculo.Id },headers: CrearMetadataDesdeToken());
+
+                var request =  new CreateVehiculoRequest { 
+                Vehiculo= new VehiculoModel
+                {
+                    CapacidadCombustible = vehiculo.CapacidadCombustible,
+                    ConsumoCombustibleKm = vehiculo.ConsumoCombustibleKm,
+                    Descripcion = vehiculo.Descripcion,
+                    Estado = vehiculo.Estado,
+                    EstadoOperativo = vehiculo.EstadoOperativo,
+                    FechaRegistro = vehiculo.FechaRegistro,
+                    Id = vehiculo.Id,
+                    Nombre = vehiculo.Nombre,
+                    Placa = vehiculo.Placa,
+                    TipoMaquinaria = vehiculo.TipoMaquinaria
+
+                }
+                };
+                var respuesta = await cliente.CreateVehiculoAsync(request, headers: CrearMetadataDesdeToken());
                 return Ok(respuesta.Vehiculo);
             }
             catch (RpcException ex)
