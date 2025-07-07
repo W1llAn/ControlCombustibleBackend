@@ -52,7 +52,7 @@ namespace MicroservicioConsumoCombustible.Controllers
         public override async Task<AsignacionConsumoCombustible> ActualizarConsumoCombustible(ActualizarConsumoCombustibleRequest request, ServerCallContext context)
         {
             var user = context.GetHttpContext().User;
-            if (!user.HasClaim("Rol", "Administrador"))
+            if (!(user.HasClaim("Rol", "Administrador")||user.HasClaim("Rol","Supervisor")))
             {
                 throw new RpcException(new Status(StatusCode.PermissionDenied, "Solo administrador puede actualizar consumos"));
             }
@@ -96,7 +96,7 @@ namespace MicroservicioConsumoCombustible.Controllers
         public override async Task<EliminarConsumoCombustibleResponse> EliminarConsumoCombustible(EliminarConsumoCombustibleRequest request, ServerCallContext context)
         {
             var user = context.GetHttpContext().User;
-            if (!user.HasClaim("Rol", "Administrador"))
+            if (!(user.HasClaim("Rol", "Administrador") || user.HasClaim("Rol", "Supervisor")))
             {
                 throw new RpcException(new Status(StatusCode.PermissionDenied, "Solo administrador puede eliminar consumos"));
             }
