@@ -112,20 +112,11 @@ namespace ApiGateway.Controllers
         }
 
         [HttpPost("crear")]
-        public async Task<IActionResult> CrearConsumo([FromBody] CrearConsumoCombustibleRequestApigateway request)
+        public async Task<IActionResult> CrearConsumo([FromBody] CrearConsumoCombustibleRequest request)
         {
 
-            var client = await CrearClienteGrpc((MicroservicioChoferes.Protos.TipoMaquinaria)request.TipoMaquinaria);
-            var response = await client.CrearConsumoCombustibleAsync(
-                new CrearConsumoCombustibleRequest
-                {
-                    AsignacionRutaId=request.AsignacionRutaId,
-                    CombustibleReal=request.CombustibleReal,
-                    Estado=request.Estado,
-                    FechaRegistro=request.FechaRegistro,
-                    Motivo = request.Motivo 
-                }, 
-                headers: CrearMetadataDesdeToken());
+            var client = await CrearClienteGrpc();
+            var response = await client.CrearConsumoCombustibleAsync(request, headers: CrearMetadataDesdeToken());
             return Ok(response);
         }
 
