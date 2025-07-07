@@ -13,7 +13,7 @@ services:
       - "5005:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres1;Password=200232
     networks:
       - red-ms
 
@@ -27,7 +27,7 @@ services:
       - "5007:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres1;Password=200232
     networks:
       - red-ms
 
@@ -41,7 +41,7 @@ services:
       - "5029:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres;Password=200232
+      - ConnectionStrings__DefaultConnection=Host=10.0.0.5;Port=5432;Database=CombustibleDB;Username=postgres1;Password=200232
     networks:
       - red-ms
 
