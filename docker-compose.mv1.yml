@@ -8,22 +8,19 @@ services:
       context: ./ApiGateway
       dockerfile: Dockerfile
     container_name: apigateway
-    ports:
-      - "5001:8080"
-      - "5000:8081"
+    network_mode: host
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - Grpc__autenticacion=http://microservicio-autenticacion:8080
-      - Grpc__vehiculos-livianos=172.191.76.83:5004
-      - Grpc__vehiculos-pesados=20.169.243.51:5018
-      - Grpc__choferes=http://microservicio-choferes:8080
-      - Grpc__rutas=http://microservicio-rutas:8080
-      - Grpc__asignacionrutasLiviana=172.191.76.83:5006
-      - Grpc__asignacionrutasPesada=20.169.243.51:5020
-      - Grpc__consumocombustiblePesado=20.169.243.51:5008
-      - Grpc__consumocombustibleLiviano=172.191.76.83:5028
-    networks:
-      - red-ms
+      - grcp__autenticacion=http://52.226.126.56:5050
+      - grcp__vehiculos-livianos=http://172.191.76.83:5004
+      - grcp__vehiculos-pesados=http://20.169.243.51:5018
+      - grcp__choferes=http://52.226.126.56:5002
+      - grcp__rutas=http://52.226.126.56:5010
+      - grcp__asignacionrutasLiviana=http://172.191.76.83:5006
+      - grcp__asignacionrutasPesada=http://20.169.243.51:5020
+      - grcp__consumocombustiblePesado=http://20.169.243.51:5008
+      - grcp__consumocombustibleLiviano=http://172.191.76.83:5028
+
 
   microservicio-autenticacion:
     build:

@@ -15,7 +15,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
     options.ListenAnyIP(8081, o =>
     {
-        o.UseHttps("certs/aspnetapp.pfx", "1234"); // Ruta del certificado y contraseña
+        o.UseHttps("certs/aspnetapp.pfx", "1234"); // Ruta del certificado y contraseï¿½a
         o.Protocols = HttpProtocols.Http2;
     });
 });
@@ -70,12 +70,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         OnAuthenticationFailed = context =>
         {
-            Console.WriteLine($"Error de autenticación: {context.Exception}");
+            Console.WriteLine($"Error de autenticaciï¿½n: {context.Exception}");
             return Task.CompletedTask;
         },
         OnForbidden = context =>
         {
-            Console.WriteLine($"Error de autenticación: {context.Response}");
+            Console.WriteLine($"Error de autenticaciï¿½n: {context.Response}");
             return Task.CompletedTask;
         },
         OnTokenValidated = context =>
@@ -117,6 +117,16 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == HttpMethods.Options)
+    {
+        context.Response.StatusCode = 200;
+        await context.Response.CompleteAsync();
+        return;
+    }
+    await next();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 
